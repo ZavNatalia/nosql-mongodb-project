@@ -5,20 +5,17 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "start-server": "node app.js"
+    "start": "nodemon --exec \"node --env-file=.env\" app.js",
+    "start-server": "node --env-file=.env app.js"
   },
   "author": "Natalia",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.1.14"
   },
-
   "dependencies": {
     "ejs": "^6.0.1",
     "express": "^5.2.1",
-    "mongodb": "^7.5.0",
-    "mysql2": "^3.23.2",
-    "sequelize": "^6.37.8"
+    "mongodb": "^7.5.0"
   }
 }
