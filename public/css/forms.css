@@ -21,3 +21,11 @@
 .form-control textarea:focus {
   outline-color: #00695c;
 }
+
+.product-form {
+  width: 14rem;
+  max-width: 90%;
+  margin: auto;
+  display: block;
+  border-radius: 1rem;
+}

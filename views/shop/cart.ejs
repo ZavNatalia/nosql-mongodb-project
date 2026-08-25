@@ -6,27 +6,54 @@
         <%- include('../includes/navigation.ejs') %>
         <main>
             <% if (products.length > 0) { %>
-                <ul class="cart__item-list">
-                    <% products.forEach(p => { %>
-                        <li class="cart__item">
-                            <h1><%= p.title %></h1>
-                            <h2>Quantity: <%= p.quantity %></h2>
-                            <form action="/cart-delete-item" method="POST">
-                                <input type="hidden" value="<%= p._id %>" name="productId">
-                                <button class="btn danger" type="submit">Delete</button>
-                            </form>
-                        </li>
-                    <% }) %>
-                </ul>
-                <hr>
-                <div class="centered">
-                    <form action="/create-order" method="POST">
-                        <button type="submit" class="btn">Order Now!</button>
-                    </form>
+                <% const totalPrice = products.reduce((sum, p) => sum + Number(p.price) * p.quantity, 0); %>
+                <% const totalItems = products.reduce((sum, p) => sum + p.quantity, 0); %>
+                <div class="cart">
+                    <header class="cart__header">
+                        <h1 class="cart__title">Your Cart</h1>
+                        <span class="cart__count"><%= totalItems %> item<%= totalItems === 1 ? '' : 's' %></span>
+                    </header>
+
+                    <ul class="cart__item-list">
+                        <% products.forEach(p => { %>
+                            <li class="cart__item">
+                                <div class="cart__item-image">
+                                    <img src="<%= p.imageUrl %>" alt="<%= p.title %>">
+                                </div>
+                                <div class="cart__item-info">
+                                    <a class="cart__item-title" href="/products/<%= p._id %>"><%= p.title %></a>
+                                    <p class="cart__item-price">
+                                        $<%= Number(p.price).toFixed(2) %>
+                                        <span class="cart__item-quantity">&times; <%= p.quantity %></span>
+                                    </p>
+                                </div>
+                                <div class="cart__item-actions">
+                                    <p class="cart__item-total">$<%= (Number(p.price) * p.quantity).toFixed(2) %></p>
+                                    <form action="/cart-delete-item" method="POST">
+                                        <input type="hidden" value="<%= p._id %>" name="productId">
+                                        <button class="btn danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+
+                    <section class="cart__summary">
+                        <div class="cart__summary-row">
+                            <span class="cart__summary-label">Total</span>
+                            <span class="cart__summary-value">$<%= totalPrice.toFixed(2) %></span>
+                        </div>
+                        <form action="/create-order" method="POST">
+                            <button type="submit" class="btn btn--primary">Order Now!</button>
+                        </form>
+                    </section>
                 </div>
-                
             <% } else { %>
-                <h1>No Products in Cart!</h1>
+                <div class="cart cart--empty">
+                    <h1 class="cart__title">Your cart is empty</h1>
+                    <p class="cart__empty-text">Looks like you haven't added anything yet.</p>
+                    <a href="/products" class="btn btn--primary">Browse Products</a>
+                </div>
             <% } %>
         </main>
         <%- include('../includes/end.ejs') %>

@@ -19,18 +19,6 @@ form {
     display: inline;
 }
 
-.centered {
-    text-align: center;
-}
-
-.image {
-    height: 20rem;
-}
-
-.image img {
-    height: 100%;
-}
-
 .main-header {
     width: 100%;
     height: 3.5rem;
@@ -156,41 +144,6 @@ form {
 .card {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
-
-.card__header,
-.card__content {
-    padding: 0.8rem;
-}
-
-.card__header h1,
-.card__content h1,
-.card__content h2,
-.card__content p {
-    margin: 0;
-}
-
-.card__image {
-    width: 100%;
-    max-width: 8rem;
-    margin: 0 auto;
-}
-
-.card__image img {
-    width: 100%;
-}
-
-.card__actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    margin-bottom: 0.8rem;
-}
-
-/*.card__actions button,*/
-/*.card__actions a {*/
-/*    margin: 0 0.1rem;*/
-/*}*/
 
 .btn {
     display: inline-block;
