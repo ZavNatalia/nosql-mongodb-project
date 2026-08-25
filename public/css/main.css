@@ -164,6 +164,20 @@ form {
     color: white;
 }
 
+.btn--primary {
+    background: #00695c;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+}
+
+.btn--primary:hover,
+.btn--primary:active {
+    background: #004d40;
+    border-color: #004d40;
+    color: white;
+}
+
 .btn.danger {
     color: red;
     border-color: red;
