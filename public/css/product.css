@@ -1,18 +1,21 @@
 .product-form {
-    width: 20rem;
+    width: 14rem;
     max-width: 90%;
     margin: auto;
     display: block;
+    border-radius: 1rem;
 }
 
 .product-item {
-    width: 20rem;
-    max-width: 95%;
+    width: 14rem;
+    max-width: 90%;
+    height: fit-content;
     margin: 1rem;
+    border-radius: 1rem;
 }
 
 .product__title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: center;
 }
 
@@ -24,4 +27,5 @@
 
 .product__description {
     text-align: center;
+    font-size: 0.8rem;
 }

@@ -36,7 +36,7 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 mongoConnect()
-  .then(() => User.firstOrCreate('Max', 'test@test.com'))
+  .then(() => User.firstOrCreate('Natalia', 'test@test.com'))
   .then(user => {
     currentUserId = user._id;
     app.listen(3000);
