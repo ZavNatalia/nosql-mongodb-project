@@ -22,10 +22,20 @@
                                 </div>
                                 <div class="cart__item-info">
                                     <a class="cart__item-title" href="/products/<%= p._id %>"><%= p.title %></a>
-                                    <p class="cart__item-price">
-                                        $<%= Number(p.price).toFixed(2) %>
-                                        <span class="cart__item-quantity">&times; <%= p.quantity %></span>
-                                    </p>
+                                    <p class="cart__item-price">$<%= Number(p.price).toFixed(2) %> each</p>
+                                    <div class="cart__item-quantity">
+                                        <form action="/cart-update-item" method="POST">
+                                            <input type="hidden" value="<%= p._id %>" name="productId">
+                                            <input type="hidden" value="-1" name="delta">
+                                            <button class="cart__quantity-btn" type="submit" aria-label="Decrease quantity" <%= p.quantity <= 1 ? 'disabled' : '' %>>&minus;</button>
+                                        </form>
+                                        <span class="cart__quantity-value"><%= p.quantity %></span>
+                                        <form action="/cart-update-item" method="POST">
+                                            <input type="hidden" value="<%= p._id %>" name="productId">
+                                            <input type="hidden" value="1" name="delta">
+                                            <button class="cart__quantity-btn" type="submit" aria-label="Increase quantity">+</button>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="cart__item-actions">
                                     <p class="cart__item-total">$<%= (Number(p.price) * p.quantity).toFixed(2) %></p>
@@ -44,7 +54,7 @@
                             <span class="cart__summary-value">$<%= totalPrice.toFixed(2) %></span>
                         </div>
                         <form action="/create-order" method="POST">
-                            <button type="submit" class="btn btn--primary">Order Now!</button>
+                            <button type="submit" class="btn btn--primary cart__order-btn">Order Now!</button>
                         </form>
                     </section>
                 </div>

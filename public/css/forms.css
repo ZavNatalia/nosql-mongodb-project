@@ -72,6 +72,12 @@
   border-top: 1px solid #e0e0e0;
 }
 
+/* .btn--primary задаёт свой размер — возвращаем обе кнопки формы к базовому */
+.product-form__actions .btn {
+  padding: 0.2rem 0.8rem;
+  font-size: 0.8rem;
+}
+
 @media (max-width: 40rem) {
   .product-form {
     padding: 1rem;

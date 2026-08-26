@@ -64,6 +64,22 @@ class User {
     });
   }
 
+  changeCartItemQuantity(productId, delta) {
+    const items = this.cart.items.map(item => ({ ...item }));
+    const target = items.find(
+      item => item.productId.toString() === productId.toString()
+    );
+
+    if (!target) {
+      return Promise.resolve();
+    }
+
+    target.quantity = Math.max(1, target.quantity + delta);
+
+    this.cart = { items: items };
+    return this._persistCart();
+  }
+
   deleteItemFromCart(productId) {
     const items = this.cart.items.filter(
       item => item.productId.toString() !== productId.toString()

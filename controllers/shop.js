@@ -66,6 +66,18 @@ exports.postCart = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
+exports.postCartUpdateQuantity = (req, res, next) => {
+  // Плюс и минус — единственные допустимые шаги, что бы ни пришло в теле запроса
+  const delta = Number(req.body.delta) < 0 ? -1 : 1;
+
+  req.user
+    .changeCartItemQuantity(req.body.productId, delta)
+    .then(() => {
+      res.redirect('/cart');
+    })
+    .catch(err => console.log(err));
+};
+
 exports.postCartDeleteProduct = (req, res, next) => {
   req.user
     .deleteItemFromCart(req.body.productId)
