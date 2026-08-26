@@ -1,4 +1,15 @@
 const Product = require('../models/product');
+const validateCheckout = require('../util/validate-checkout');
+
+const EMPTY_CHECKOUT_VALUES = {
+  name: '',
+  email: '',
+  phone: '',
+  street: '',
+  city: '',
+  postalCode: '',
+  note: ''
+};
 
 exports.getIndex = (req, res, next) => {
   Product.fetchAll()
@@ -87,13 +98,68 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postOrder = (req, res, next) => {
+exports.getCheckout = (req, res, next) => {
   req.user
-    .addOrder()
-    .then(() => {
-      res.redirect('/orders');
+    .getCart()
+    .then(products => {
+      // Оформлять нечего — возвращаем в корзину, а не показываем пустую форму
+      if (products.length === 0) {
+        return res.redirect('/cart');
+      }
+
+      res.render('shop/checkout', {
+        path: '/checkout',
+        pageTitle: 'Checkout',
+        products: products,
+        values: {
+          ...EMPTY_CHECKOUT_VALUES,
+          name: req.user.name,
+          email: req.user.email
+        },
+        errors: {}
+      });
     })
-    .catch(err => console.log(err));
+    .catch(next);
+};
+
+exports.postCheckout = (req, res, next) => {
+  const { values, errors } = validateCheckout(req.body);
+
+  req.user
+    .getCart()
+    .then(products => {
+      // Корзину могли опустошить в другой вкладке, пока заполнялась форма
+      if (products.length === 0) {
+        return res.redirect('/cart');
+      }
+
+      if (Object.keys(errors).length > 0) {
+        return res.status(422).render('shop/checkout', {
+          path: '/checkout',
+          pageTitle: 'Checkout',
+          products: products,
+          values: values,
+          errors: errors
+        });
+      }
+
+      return req.user
+        .addOrder({
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          address: {
+            street: values.street,
+            city: values.city,
+            postalCode: values.postalCode
+          },
+          note: values.note
+        })
+        .then(() => {
+          res.redirect('/orders');
+        });
+    })
+    .catch(next);
 };
 
 exports.getOrders = (req, res, next) => {

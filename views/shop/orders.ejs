@@ -56,6 +56,18 @@
                                         </li>
                                     <% }); %>
                                 </ul>
+                                <% if (order.customer) { %>
+                                    <div class="order__delivery">
+                                        <h3 class="order__delivery-title">Delivery</h3>
+                                        <p class="order__delivery-line"><%= order.customer.name %> &middot; <%= order.customer.phone %> &middot; <%= order.customer.email %></p>
+                                        <p class="order__delivery-line">
+                                            <%= order.customer.address.street %>, <%= order.customer.address.city %>, <%= order.customer.address.postalCode %>
+                                        </p>
+                                        <% if (order.customer.note) { %>
+                                            <p class="order__delivery-note"><%= order.customer.note %></p>
+                                        <% } %>
+                                    </div>
+                                <% } %>
                             </li>
                         <% }); %>
                     </ul>

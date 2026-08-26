@@ -1,4 +1,4 @@
-.product-form {
+.form-card {
   width: 34rem;
   max-width: 100%;
   margin: 0 auto;
@@ -73,13 +73,13 @@
 }
 
 /* .btn--primary задаёт свой размер — возвращаем обе кнопки формы к базовому */
-.product-form__actions .btn {
+.form-card .btn {
   padding: 0.2rem 0.8rem;
   font-size: 0.8rem;
 }
 
 @media (max-width: 40rem) {
-  .product-form {
+  .form-card {
     padding: 1rem;
   }
 

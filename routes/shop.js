@@ -20,7 +20,9 @@ router.post('/cart-update-item', shopController.postCartUpdateQuantity);
 
 router.post('/cart-delete-item', shopController.postCartDeleteProduct);
 
-router.post('/create-order', shopController.postOrder);
+router.get('/checkout', shopController.getCheckout);
+
+router.post('/checkout', shopController.postCheckout);
 
 router.get('/orders', shopController.getOrders);
 

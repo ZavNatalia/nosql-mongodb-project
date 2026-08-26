@@ -89,11 +89,12 @@ class User {
     return this._persistCart();
   }
 
-  async addOrder() {
+  async addOrder(customer) {
     const cartProducts = await this.getCart();
 
     const order = {
       user: { _id: this._id, name: this.name },
+      customer: customer,
       items: cartProducts.map(({ quantity, ...product }) => ({
         product: product,
         quantity: quantity
