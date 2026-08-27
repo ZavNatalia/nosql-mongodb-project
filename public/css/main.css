@@ -13,6 +13,7 @@
     --line: #e3ddd4;
     --accent: #7a3b2e;
     --danger: #a4442e;
+    --overlay: rgba(23, 21, 18, 0.45);
     --cover-shadow: 0 6px 18px rgba(23, 21, 18, 0.22);
     --cover-shadow-lg: 0 10px 28px rgba(23, 21, 18, 0.26);
 
@@ -55,6 +56,7 @@
         --line: #2e2a25;
         --accent: #c8836b;
         --danger: #e0866c;
+        --overlay: rgba(0, 0, 0, 0.6);
         --cover-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
         --cover-shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.6);
     }
@@ -69,6 +71,7 @@
     --line: #2e2a25;
     --accent: #c8836b;
     --danger: #e0866c;
+    --overlay: rgba(0, 0, 0, 0.6);
     --cover-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
     --cover-shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.6);
 }
@@ -501,7 +504,7 @@ form {
 .backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(23, 21, 18, 0.45);
+    background: var(--overlay);
     z-index: 5;
     display: none;
 }
