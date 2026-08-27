@@ -20,7 +20,7 @@
                     <li>
                         <a class="masthead__link <%= link.match(path) ? 'masthead__link--active' : '' %>"
                            href="<%= link.href %>"
-                           <%= link.match(path) ? 'aria-current="page"' : '' %>><%= link.label %></a>
+                           aria-current="<%= link.match(path) ? 'page' : 'false' %>"><%= link.label %></a>
                     </li>
                 <% }) %>
             </ul>
@@ -28,7 +28,7 @@
 
         <div class="masthead__tools">
             <button id="theme-toggle" class="masthead__theme-btn" type="button" aria-pressed="false">Theme</button>
-            <a class="masthead__admin <%= isAdminPath ? 'masthead__link--active' : '' %>" href="/admin/products" <%= isAdminPath ? 'aria-current="page"' : '' %>>Admin</a>
+            <a class="masthead__admin <%= isAdminPath ? 'masthead__link--active' : '' %>" href="/admin/products" aria-current="<%= isAdminPath ? 'page' : 'false' %>">Admin</a>
         </div>
     </div>
 
@@ -45,8 +45,8 @@
 <nav class="mobile-nav" aria-label="Main, mobile">
     <ul class="mobile-nav__links">
         <% SHOP_LINKS.forEach(link => { %>
-            <li><a class="mobile-nav__link <%= link.match(path) ? 'mobile-nav__link--active' : '' %>" href="<%= link.href %>" <%= link.match(path) ? 'aria-current="page"' : '' %>><%= link.label %></a></li>
+            <li><a class="mobile-nav__link <%= link.match(path) ? 'mobile-nav__link--active' : '' %>" href="<%= link.href %>" aria-current="<%= link.match(path) ? 'page' : 'false' %>"><%= link.label %></a></li>
         <% }) %>
-        <li><a class="mobile-nav__link <%= isAdminPath ? 'mobile-nav__link--active' : '' %>" href="/admin/products" <%= isAdminPath ? 'aria-current="page"' : '' %>>Admin</a></li>
+        <li><a class="mobile-nav__link <%= isAdminPath ? 'mobile-nav__link--active' : '' %>" href="/admin/products" aria-current="<%= isAdminPath ? 'page' : 'false' %>">Admin</a></li>
     </ul>
 </nav>
