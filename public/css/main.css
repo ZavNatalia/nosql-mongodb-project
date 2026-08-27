@@ -8,8 +8,8 @@
     --paper: #faf8f5;
     --paper-2: #f0ebe3;
     --ink: #171512;
-    --ink-2: #6e6862;
-    --ink-3: #9a938a;
+    --ink-2: #56514a;
+    --ink-3: #6f6a60;
     --line: #e3ddd4;
     --accent: #7a3b2e;
     --danger: #a4442e;
@@ -21,13 +21,13 @@
     --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
 
     --fs-display: clamp(2.75rem, 7vw, 5rem);
-    --fs-h1: clamp(2rem, 4vw, 2.75rem);
-    --fs-h2: 1.5rem;
-    --fs-title: 1.0625rem;
-    --fs-body: 0.875rem;
-    --fs-ui: 0.8125rem;
-    --fs-meta: 0.6875rem;
-    --fs-eyebrow: 0.5625rem;
+    --fs-h1: clamp(2.25rem, 4vw, 3rem);
+    --fs-h2: 1.625rem;
+    --fs-title: 1.1875rem;
+    --fs-body: 1rem;
+    --fs-ui: 0.9375rem;
+    --fs-meta: 0.8125rem;
+    --fs-eyebrow: 0.6875rem;
 
     --sp-1: 0.25rem;
     --sp-2: 0.5rem;
@@ -51,8 +51,8 @@
         --paper: #14120f;
         --paper-2: #1e1b17;
         --ink: #f2ede6;
-        --ink-2: #a9a199;
-        --ink-3: #7c746c;
+        --ink-2: #b8b0a7;
+        --ink-3: #8d857c;
         --line: #2e2a25;
         --accent: #c8836b;
         --danger: #e0866c;
@@ -66,8 +66,8 @@
     --paper: #14120f;
     --paper-2: #1e1b17;
     --ink: #f2ede6;
-    --ink-2: #a9a199;
-    --ink-3: #7c746c;
+    --ink-2: #b8b0a7;
+    --ink-3: #8d857c;
     --line: #2e2a25;
     --accent: #c8836b;
     --danger: #e0866c;
@@ -366,7 +366,7 @@ form {
 
 .masthead__brand {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1.375rem;
     letter-spacing: -0.01em;
     margin-right: auto;
 }
