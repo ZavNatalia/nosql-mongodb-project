@@ -9,14 +9,18 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const product = new Product(
-    req.body.title,
-    req.body.price,
-    req.body.imageUrl,
-    req.body.description,
-    null,
-    req.user._id
-  );
+  const product = new Product({
+    title: req.body.title,
+    author: req.body.author,
+    price: req.body.price,
+    imageUrl: req.body.imageUrl,
+    description: req.body.description,
+    publisher: req.body.publisher,
+    year: req.body.year,
+    pages: req.body.pages,
+    genre: req.body.genre,
+    userId: req.user._id
+  });
 
   product
     .save()
@@ -49,14 +53,19 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const product = new Product(
-    req.body.title,
-    req.body.price,
-    req.body.imageUrl,
-    req.body.description,
-    req.body.productId,
-    req.user._id
-  );
+  const product = new Product({
+    title: req.body.title,
+    author: req.body.author,
+    price: req.body.price,
+    imageUrl: req.body.imageUrl,
+    description: req.body.description,
+    publisher: req.body.publisher,
+    year: req.body.year,
+    pages: req.body.pages,
+    genre: req.body.genre,
+    id: req.body.productId,
+    userId: req.user._id
+  });
 
   product
     .save()
