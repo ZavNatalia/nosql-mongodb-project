@@ -1,0 +1,95 @@
+.book__crumb {
+    margin-bottom: var(--sp-5);
+}
+
+.book__crumb a:hover {
+    color: var(--ink);
+}
+
+.book__title {
+    font-size: var(--fs-display);
+    max-width: 16ch;
+}
+
+.book__author {
+    font-size: 1.0625rem;
+    color: var(--ink-2);
+    margin-top: var(--sp-4);
+}
+
+.book__rule {
+    margin: var(--sp-6) 0;
+}
+
+.book__spread {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr) 190px;
+    gap: var(--sp-7);
+    align-items: start;
+}
+
+.book__cover {
+    height: 300px;
+    padding: var(--sp-4) var(--sp-4) 0;
+}
+
+.book__cover img {
+    box-shadow: var(--cover-shadow-lg);
+}
+
+.book__description {
+    max-width: var(--measure);
+    color: var(--ink-2);
+    line-height: 1.7;
+}
+
+.book__price {
+    font-size: 1.75rem;
+    margin-bottom: var(--sp-4);
+}
+
+.book__add-btn {
+    display: block;
+    width: 100%;
+}
+
+.book__specs {
+    margin: var(--sp-6) 0 0;
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--line);
+    font-size: var(--fs-meta);
+}
+
+.book__spec {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    padding: var(--sp-1) 0;
+}
+
+.book__spec dt {
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.book__spec dd {
+    margin: 0;
+    color: var(--ink-2);
+    text-align: right;
+}
+
+@media (max-width: 899px) {
+    .book__spread {
+        grid-template-columns: 1fr;
+        gap: var(--sp-6);
+    }
+
+    .book__cover {
+        max-width: 210px;
+    }
+
+    .book__buy {
+        max-width: 260px;
+    }
+}

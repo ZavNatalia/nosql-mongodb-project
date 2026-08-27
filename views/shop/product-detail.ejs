@@ -1,19 +1,52 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/book.css">
     </head>
 
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
-            <div class="product-detail">
-                <div class="product-detail__image">
-                    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
-                </div>
-                <div>
-                    <h1 class="product-detail__title"><%= product.title %></h1>
-                    <p class="product-detail__price">$<%= Number(product.price).toFixed(2) %></p>
-                    <p class="product-detail__description"><%= product.description %></p>
-                    <%- include('../includes/add-to-cart.ejs', { product: product }) %>
+            <div class="page">
+                <p class="eyebrow book__crumb">
+                    <a href="/products">Books</a><% if (product.genre) { %> / <%= product.genre %><% } %>
+                </p>
+
+                <h1 class="book__title"><%= product.title %></h1>
+                <% if (product.author) { %>
+                    <p class="book__author"><%= product.author %></p>
+                <% } %>
+
+                <hr class="rule book__rule">
+
+                <div class="book__spread">
+                    <div class="book__cover" data-cover data-title="<%= product.title %>">
+                        <img src="<%= product.imageUrl %>" alt="Cover of <%= product.title %>" decoding="async">
+                    </div>
+
+                    <div class="book__description">
+                        <p><%= product.description %></p>
+                    </div>
+
+                    <aside class="book__buy">
+                        <p class="numeric book__price">$<%= Number(product.price).toFixed(2) %></p>
+                        <%- include('../includes/add-to-cart.ejs', { product: product }) %>
+
+                        <% if (product.publisher || product.year || product.pages || product.genre) { %>
+                            <dl class="book__specs">
+                                <% if (product.publisher) { %>
+                                    <div class="book__spec"><dt>Publisher</dt><dd><%= product.publisher %></dd></div>
+                                <% } %>
+                                <% if (product.year) { %>
+                                    <div class="book__spec"><dt>Published</dt><dd><%= product.year %></dd></div>
+                                <% } %>
+                                <% if (product.pages) { %>
+                                    <div class="book__spec"><dt>Pages</dt><dd><%= product.pages %></dd></div>
+                                <% } %>
+                                <% if (product.genre) { %>
+                                    <div class="book__spec"><dt>Genre</dt><dd><%= product.genre %></dd></div>
+                                <% } %>
+                            </dl>
+                        <% } %>
+                    </aside>
                 </div>
             </div>
         </main>
