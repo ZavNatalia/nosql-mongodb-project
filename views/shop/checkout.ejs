@@ -1,0 +1,138 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/checkout.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <%
+                const FIELD_LABELS = {
+                    name: 'Full name',
+                    email: 'Email',
+                    phone: 'Phone',
+                    street: 'Street and building',
+                    city: 'City',
+                    postalCode: 'Postal code',
+                    note: 'Delivery note'
+                };
+                const errorFields = Object.keys(errors);
+                const totalPrice = products.reduce((sum, p) => sum + Number(p.price) * p.quantity, 0);
+                const totalItems = products.reduce((sum, p) => sum + p.quantity, 0);
+            %>
+            <div class="checkout">
+                <form class="form-card checkout__form" action="/checkout" method="POST">
+                    <h1 class="checkout__title">Checkout</h1>
+
+                    <% if (errorFields.length > 0) { %>
+                        <div class="form-errors" role="alert">
+                            <p class="form-errors__title">Please fix <%= errorFields.length %> field<%= errorFields.length === 1 ? '' : 's' %>:</p>
+                            <ul class="form-errors__list">
+                                <% errorFields.forEach(field => { %>
+                                    <li><a href="#<%= field %>"><%= FIELD_LABELS[field] %>: <%= errors[field] %></a></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
+
+                    <fieldset class="checkout__group">
+                        <legend class="checkout__legend">Contact details</legend>
+
+                        <div class="form-control">
+                            <label for="name">Full name</label>
+                            <input type="text" id="name" name="name" autocomplete="name" maxlength="60" required
+                                   value="<%= values.name %>"
+                                   <% if (errors.name) { %>aria-invalid="true" aria-describedby="name-error"<% } %>>
+                            <% if (errors.name) { %>
+                                <p class="form-control__error" id="name-error"><%= errors.name %></p>
+                            <% } %>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" maxlength="254" required
+                                   value="<%= values.email %>"
+                                   <% if (errors.email) { %>aria-invalid="true" aria-describedby="email-error"<% } %>>
+                            <% if (errors.email) { %>
+                                <p class="form-control__error" id="email-error"><%= errors.email %></p>
+                            <% } %>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" required
+                                   value="<%= values.phone %>"
+                                   <% if (errors.phone) { %>aria-invalid="true" aria-describedby="phone-error"<% } %>>
+                            <% if (errors.phone) { %>
+                                <p class="form-control__error" id="phone-error"><%= errors.phone %></p>
+                            <% } %>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="checkout__group">
+                        <legend class="checkout__legend">Delivery address</legend>
+
+                        <div class="form-control">
+                            <label for="street">Street and building</label>
+                            <input type="text" id="street" name="street" autocomplete="street-address" maxlength="120" required
+                                   value="<%= values.street %>"
+                                   <% if (errors.street) { %>aria-invalid="true" aria-describedby="street-error"<% } %>>
+                            <% if (errors.street) { %>
+                                <p class="form-control__error" id="street-error"><%= errors.street %></p>
+                            <% } %>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city" autocomplete="address-level2" maxlength="60" required
+                                   value="<%= values.city %>"
+                                   <% if (errors.city) { %>aria-invalid="true" aria-describedby="city-error"<% } %>>
+                            <% if (errors.city) { %>
+                                <p class="form-control__error" id="city-error"><%= errors.city %></p>
+                            <% } %>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="postalCode">Postal code</label>
+                            <input type="text" id="postalCode" name="postalCode" autocomplete="postal-code" inputmode="numeric" maxlength="12" required
+                                   value="<%= values.postalCode %>"
+                                   <% if (errors.postalCode) { %>aria-invalid="true" aria-describedby="postalCode-error"<% } %>>
+                            <% if (errors.postalCode) { %>
+                                <p class="form-control__error" id="postalCode-error"><%= errors.postalCode %></p>
+                            <% } %>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-control">
+                        <label for="note">Delivery note <span class="form-control__optional">(optional)</span></label>
+                        <textarea id="note" name="note" rows="3" autocomplete="off" maxlength="500"
+                                  <% if (errors.note) { %>aria-invalid="true" aria-describedby="note-error"<% } %>><%= values.note %></textarea>
+                        <% if (errors.note) { %>
+                            <p class="form-control__error" id="note-error"><%= errors.note %></p>
+                        <% } %>
+                    </div>
+
+                    <div class="checkout__actions">
+                        <button class="btn btn--primary" type="submit">Place Order</button>
+                        <a class="btn" href="/cart">Back to cart</a>
+                    </div>
+                </form>
+
+                <aside class="checkout__summary">
+                    <h2 class="checkout__summary-title">Order summary</h2>
+                    <ul class="checkout__summary-list">
+                        <% products.forEach(p => { %>
+                            <li class="checkout__summary-item">
+                                <span class="checkout__summary-name"><%= p.title %> &times; <%= p.quantity %></span>
+                                <span class="checkout__summary-price">$<%= (Number(p.price) * p.quantity).toFixed(2) %></span>
+                            </li>
+                        <% }) %>
+                    </ul>
+                    <p class="checkout__summary-total">
+                        <span>Total (<%= totalItems %> item<%= totalItems === 1 ? '' : 's' %>)</span>
+                        <strong>$<%= totalPrice.toFixed(2) %></strong>
+                    </p>
+                </aside>
+            </div>
+        </main>
+        <%- include('../includes/end.ejs') %>

@@ -53,7 +53,7 @@
                             <span class="cart__summary-label">Total</span>
                             <span class="cart__summary-value">$<%= totalPrice.toFixed(2) %></span>
                         </div>
-                        <form action="/create-order" method="POST">
+                        <form action="/checkout" method="GET">
                             <button type="submit" class="btn btn--primary cart__order-btn">Order Now!</button>
                         </form>
                     </section>
