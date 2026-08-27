@@ -1,38 +1,131 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css">
-</head>
+    <link rel="stylesheet" href="/css/admin.css">
+    </head>
 
-<body>
-   <%- include('../includes/navigation.ejs') %>
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <div class="page">
+                <%
+                    const FIELD_LABELS = {
+                        title: 'Title',
+                        author: 'Author',
+                        price: 'Price',
+                        imageUrl: 'Cover URL',
+                        description: 'Description',
+                        publisher: 'Publisher',
+                        year: 'Year',
+                        pages: 'Pages',
+                        genre: 'Genre'
+                    };
+                    const errorFields = Object.keys(errors);
+                %>
 
-    <main>
-        <form class="form-card product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
-            <h1 class="product-form__title"><% if (editing) { %>Edit Product<% } else { %>Add Product<% } %></h1>
+                <p class="eyebrow"><%= editing ? 'Edit book' : 'Add book' %></p>
+                <h1 class="book-form__title"><%= values.title || 'Untitled' %></h1>
 
-            <div class="form-control">
-                <label for="title">Title</label>
-                <input type="text" name="title" id="title" placeholder="Product name" required value="<% if (editing) { %><%= product.title %><% } %>">
-            </div>
-            <div class="form-control">
-                <label for="imageUrl">Image URL</label>
-                <input type="url" name="imageUrl" id="imageUrl" placeholder="https://example.com/cover.png" required value="<% if (editing) { %><%= product.imageUrl %><% } %>">
-            </div>
-            <div class="form-control">
-                <label for="price">Price</label>
-                <input type="number" name="price" id="price" step="0.01" min="0" placeholder="0.00" required value="<% if (editing) { %><%= product.price %><% } %>">
-            </div>
-            <div class="form-control">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" rows="5" placeholder="Short description of the product" required><% if (editing) { %><%= product.description %><% } %></textarea>
-            </div>
-            <% if (editing) { %>
-                <input type="hidden" value="<%= product._id %>" name="productId">
-            <% } %>
+                <form class="book-form" action="/admin/<%= editing ? 'edit-product' : 'add-product' %>" method="POST">
+                    <% if (errorFields.length > 0) { %>
+                        <div class="form-errors" role="alert">
+                            <p class="form-errors__title">Please fix <%= errorFields.length %> field<%= errorFields.length === 1 ? '' : 's' %>:</p>
+                            <ul class="form-errors__list">
+                                <% errorFields.forEach(field => { %>
+                                    <li><a href="#<%= field %>"><%= FIELD_LABELS[field] %>: <%= errors[field] %></a></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
 
-            <div class="product-form__actions">
-                <button class="btn btn--primary" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
-                <a class="btn" href="/admin/products">Cancel</a>
+                    <div class="form-control book-form__wide">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" maxlength="200" required
+                               value="<%= values.title %>"
+                               <% if (errors.title) { %>aria-invalid="true" aria-describedby="title-error"<% } %>>
+                        <% if (errors.title) { %><p class="form-control__error" id="title-error"><%= errors.title %></p><% } %>
+                    </div>
+
+                    <div class="form-control book-form__wide">
+                        <label for="author">Author</label>
+                        <input type="text" id="author" name="author" maxlength="120" required
+                               value="<%= values.author %>"
+                               <% if (errors.author) { %>aria-invalid="true" aria-describedby="author-error"<% } %>>
+                        <% if (errors.author) { %><p class="form-control__error" id="author-error"><%= errors.author %></p><% } %>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="publisher">Publisher</label>
+                        <input type="text" id="publisher" name="publisher" maxlength="120"
+                               value="<%= values.publisher %>"
+                               <% if (errors.publisher) { %>aria-invalid="true" aria-describedby="publisher-error"<% } %>>
+                        <% if (errors.publisher) { %><p class="form-control__error" id="publisher-error"><%= errors.publisher %></p><% } %>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="genre">Genre</label>
+                        <input type="text" id="genre" name="genre" maxlength="60"
+                               value="<%= values.genre %>"
+                               <% if (errors.genre) { %>aria-invalid="true" aria-describedby="genre-error"<% } %>>
+                        <% if (errors.genre) { %><p class="form-control__error" id="genre-error"><%= errors.genre %></p><% } %>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="year">Year</label>
+                        <input type="number" id="year" name="year" min="1450" max="2027" step="1"
+                               value="<%= values.year %>"
+                               <% if (errors.year) { %>aria-invalid="true" aria-describedby="year-error"<% } %>>
+                        <% if (errors.year) { %><p class="form-control__error" id="year-error"><%= errors.year %></p><% } %>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="pages">Pages</label>
+                        <input type="number" id="pages" name="pages" min="1" max="10000" step="1"
+                               value="<%= values.pages %>"
+                               <% if (errors.pages) { %>aria-invalid="true" aria-describedby="pages-error"<% } %>>
+                        <% if (errors.pages) { %><p class="form-control__error" id="pages-error"><%= errors.pages %></p><% } %>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="price">Price</label>
+                        <input type="number" id="price" name="price" step="0.01" min="0" required
+                               value="<%= values.price %>"
+                               <% if (errors.price) { %>aria-invalid="true" aria-describedby="price-error"<% } %>>
+                        <% if (errors.price) { %><p class="form-control__error" id="price-error"><%= errors.price %></p><% } %>
+                    </div>
+
+                    <div class="book-form__cover">
+                        <div class="form-control">
+                            <label for="imageUrl">Cover URL</label>
+                            <input type="url" id="imageUrl" name="imageUrl" maxlength="2048" required
+                                   placeholder="https://example.com/cover.jpg"
+                                   value="<%= values.imageUrl %>"
+                                   <% if (errors.imageUrl) { %>aria-invalid="true" aria-describedby="imageUrl-error"<% } %>>
+                            <% if (errors.imageUrl) { %><p class="form-control__error" id="imageUrl-error"><%= errors.imageUrl %></p><% } %>
+                        </div>
+                        <div class="book-form__preview" data-cover data-title="<%= values.title || 'No cover' %>">
+                            <% if (values.imageUrl) { %>
+                                <img id="cover-preview" src="<%= values.imageUrl %>" alt="Cover preview">
+                            <% } else { %>
+                                <img id="cover-preview" src="" alt="Cover preview" hidden>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <div class="form-control book-form__wide">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="7" maxlength="2000" required
+                                  <% if (errors.description) { %>aria-invalid="true" aria-describedby="description-error"<% } %>><%= values.description %></textarea>
+                        <% if (errors.description) { %><p class="form-control__error" id="description-error"><%= errors.description %></p><% } %>
+                    </div>
+
+                    <% if (editing) { %>
+                        <input type="hidden" value="<%= product._id %>" name="productId">
+                    <% } %>
+
+                    <div class="book-form__actions book-form__wide">
+                        <button class="btn btn--primary" type="submit"><%= editing ? 'Save book' : 'Add book' %></button>
+                        <a class="btn btn--quiet" href="/admin/products">Cancel</a>
+                    </div>
+                </form>
             </div>
-        </form>
-    </main>
-<%- include('../includes/end.ejs') %>
+        </main>
+        <%- include('../includes/end.ejs') %>

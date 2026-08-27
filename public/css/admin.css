@@ -1,0 +1,115 @@
+.book-form__title {
+    font-size: var(--fs-h1);
+    margin: var(--sp-2) 0 var(--sp-6);
+    color: var(--ink);
+}
+
+.book-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-5) var(--sp-5);
+    align-items: start;
+    max-width: 900px;
+}
+
+.book-form__wide,
+.book-form .form-errors,
+.book-form__cover {
+    grid-column: 1 / -1;
+}
+
+.book-form__cover {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: var(--sp-5);
+    align-items: end;
+}
+
+.book-form__preview {
+    height: 160px;
+    padding: var(--sp-3) var(--sp-3) 0;
+}
+
+.book-form__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--line);
+}
+
+/* --- Таблица книг (задача 6) --------------------------------------------- */
+
+.admin-books__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-6);
+}
+
+.admin-books__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-books__table th {
+    font-family: var(--font-ui);
+    font-size: var(--fs-eyebrow);
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: left;
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--line);
+}
+
+.admin-books__table td {
+    padding: var(--sp-4) var(--sp-4) var(--sp-4) 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+}
+
+.admin-books__cover {
+    width: 40px;
+    height: 56px;
+}
+
+.admin-books__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-title);
+}
+
+.admin-books__author {
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+}
+
+.admin-books__price {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.admin-books__actions {
+    display: flex;
+    gap: var(--sp-4);
+    justify-content: flex-end;
+}
+
+@media (max-width: 767px) {
+    .book-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .book-form__cover {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-books__table th:nth-child(1),
+    .admin-books__table td:nth-child(1) {
+        display: none;
+    }
+}

@@ -1,33 +1,47 @@
 const Product = require('../models/product');
+const validateBook = require('../util/validate-book');
+
+const EMPTY_BOOK_VALUES = {
+  title: '',
+  author: '',
+  price: '',
+  imageUrl: '',
+  description: '',
+  publisher: '',
+  year: '',
+  pages: '',
+  genre: ''
+};
 
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
-    pageTitle: 'Add Product',
+    pageTitle: 'Add Book',
     path: '/admin/add-product',
-    editing: false
+    editing: false,
+    values: EMPTY_BOOK_VALUES,
+    errors: {}
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const product = new Product({
-    title: req.body.title,
-    author: req.body.author,
-    price: req.body.price,
-    imageUrl: req.body.imageUrl,
-    description: req.body.description,
-    publisher: req.body.publisher,
-    year: req.body.year,
-    pages: req.body.pages,
-    genre: req.body.genre,
-    userId: req.user._id
-  });
+  const { values, errors, book } = validateBook(req.body);
 
-  product
+  if (Object.keys(errors).length > 0) {
+    return res.status(422).render('admin/edit-product', {
+      pageTitle: 'Add Book',
+      path: '/admin/add-product',
+      editing: false,
+      values: values,
+      errors: errors
+    });
+  }
+
+  new Product({ ...book, userId: req.user._id })
     .save()
     .then(() => {
       res.redirect('/admin/products');
     })
-    .catch(err => console.log(err));
+    .catch(next);
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -42,37 +56,50 @@ exports.getEditProduct = (req, res, next) => {
       if (!product) {
         return res.redirect('/');
       }
+
+      // Форма работает со строками — в базе часть полей числа или отсутствует
       res.render('admin/edit-product', {
-        pageTitle: 'Edit Product',
+        pageTitle: 'Edit Book',
         path: '/admin/edit-product',
         editing: editMode,
-        product: product
+        product: product,
+        values: {
+          title: product.title || '',
+          author: product.author || '',
+          price: product.price === undefined ? '' : String(product.price),
+          imageUrl: product.imageUrl || '',
+          description: product.description || '',
+          publisher: product.publisher || '',
+          year: product.year === undefined || product.year === null ? '' : String(product.year),
+          pages: product.pages === undefined || product.pages === null ? '' : String(product.pages),
+          genre: product.genre || ''
+        },
+        errors: {}
       });
     })
-    .catch(err => console.log(err));
+    .catch(next);
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const product = new Product({
-    title: req.body.title,
-    author: req.body.author,
-    price: req.body.price,
-    imageUrl: req.body.imageUrl,
-    description: req.body.description,
-    publisher: req.body.publisher,
-    year: req.body.year,
-    pages: req.body.pages,
-    genre: req.body.genre,
-    id: req.body.productId,
-    userId: req.user._id
-  });
+  const { values, errors, book } = validateBook(req.body);
 
-  product
+  if (Object.keys(errors).length > 0) {
+    return res.status(422).render('admin/edit-product', {
+      pageTitle: 'Edit Book',
+      path: '/admin/edit-product',
+      editing: true,
+      product: { _id: req.body.productId },
+      values: values,
+      errors: errors
+    });
+  }
+
+  new Product({ ...book, id: req.body.productId, userId: req.user._id })
     .save()
     .then(() => {
       res.redirect('/admin/products');
     })
-    .catch(err => console.log(err));
+    .catch(next);
 };
 
 exports.getProducts = (req, res, next) => {

@@ -78,3 +78,17 @@ document.addEventListener(
   },
   true
 );
+
+// Превью обложки в форме книги — чтобы опечатку в ссылке было видно сразу
+const coverInput = document.querySelector('#imageUrl');
+const coverPreview = document.querySelector('#cover-preview');
+
+if (coverInput && coverPreview) {
+  coverInput.addEventListener('change', () => {
+    const url = coverInput.value.trim();
+
+    coverPreview.closest('[data-cover]').classList.remove('is-missing');
+    coverPreview.hidden = url === '';
+    coverPreview.src = url;
+  });
+}
