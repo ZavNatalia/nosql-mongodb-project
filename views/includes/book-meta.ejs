@@ -1,7 +1,0 @@
-<%
-    const imprint = [product.publisher, product.year, product.pages ? product.pages + ' pp.' : null]
-        .filter(Boolean);
-%>
-<% if (imprint.length > 0) { %>
-    <span class="book-imprint"><%= imprint.join(' · ') %></span>
-<% } %>

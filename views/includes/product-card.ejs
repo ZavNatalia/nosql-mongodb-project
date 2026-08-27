@@ -4,18 +4,8 @@
             <img src="<%= product.imageUrl %>" alt="Cover of <%= product.title %>" loading="lazy" decoding="async">
         </div>
         <div class="book-card__text">
-            <% if (product.genre) { %>
-                <span class="eyebrow book-card__genre"><%= product.genre %></span>
-            <% } %>
             <h2 class="book-card__title"><%= product.title %></h2>
-            <% if (product.author) { %>
-                <p class="book-card__author"><%= product.author %></p>
-            <% } %>
-            <p class="book-card__description"><%= product.description %></p>
-            <div class="book-card__foot">
-                <span class="numeric book-card__price">$<%= Number(product.price).toFixed(2) %></span>
-                <%- include('./book-meta.ejs', { product: product }) %>
-            </div>
+            <span class="numeric book-card__price">$<%= Number(product.price).toFixed(2) %></span>
         </div>
     </a>
     <div class="book-card__action">
