@@ -5,17 +5,18 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
+            <div class="page">
             <% if (orders.length <= 0) { %>
-                <div class="orders orders--empty">
-                    <h1 class="orders__title">No orders yet</h1>
-                    <p class="orders__empty-text">Once you place an order, it will show up here.</p>
-                    <a class="btn btn--primary" href="/products">Browse products</a>
+                <div class="empty-state">
+                    <h1>No orders yet</h1>
+                    <p class="empty-state__text">Once you place an order, it will show up here.</p>
+                    <a class="btn btn--primary" href="/products">Browse books</a>
                 </div>
             <% } else { %>
                 <div class="orders">
                     <header class="orders__header">
-                        <h1 class="orders__title">Your Orders</h1>
-                        <span class="orders__count"><%= orders.length %> order<%= orders.length === 1 ? '' : 's' %></span>
+                        <h1>Your orders</h1>
+                        <span class="eyebrow"><%= orders.length %> order<%= orders.length === 1 ? '' : 's' %></span>
                     </header>
                     <ul class="orders__list">
                         <% orders.forEach(order => { %>
@@ -36,23 +37,26 @@
                                     </div>
                                     <div class="order__summary">
                                         <span class="order__items-count"><%= orderItems %> item<%= orderItems === 1 ? '' : 's' %></span>
-                                        <span class="order__total">$<%= orderTotal.toFixed(2) %></span>
+                                        <span class="numeric order__total">$<%= orderTotal.toFixed(2) %></span>
                                     </div>
                                 </header>
                                 <ul class="order__products">
                                     <% order.items.forEach(item => { %>
                                         <li class="order__product">
-                                            <div class="order__product-image">
-                                                <img src="<%= item.product.imageUrl %>" alt="<%= item.product.title %>">
+                                            <div class="order__product-cover" data-cover data-title="<%= item.product.title %>">
+                                                <img src="<%= item.product.imageUrl %>" alt="" loading="lazy" decoding="async">
                                             </div>
                                             <div class="order__product-info">
                                                 <span class="order__product-title"><%= item.product.title %></span>
+                                                <% if (item.product.author) { %>
+                                                    <span class="order__product-author"><%= item.product.author %></span>
+                                                <% } %>
                                                 <span class="order__product-price">
                                                     $<%= Number(item.product.price).toFixed(2) %>
                                                     <span class="order__product-quantity">&times; <%= item.quantity %></span>
                                                 </span>
                                             </div>
-                                            <span class="order__product-total">$<%= (Number(item.product.price) * item.quantity).toFixed(2) %></span>
+                                            <span class="numeric order__product-total">$<%= (Number(item.product.price) * item.quantity).toFixed(2) %></span>
                                         </li>
                                     <% }); %>
                                 </ul>
@@ -73,5 +77,6 @@
                     </ul>
                 </div>
             <% } %>
+            </div>
         </main>
         <%- include('../includes/end.ejs') %>
