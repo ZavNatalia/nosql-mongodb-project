@@ -15,7 +15,8 @@ exports.getIndex = (req, res, next) => {
   Product.fetchAll()
     .then(products => {
       res.render('shop/index', {
-        prods: products,
+        // Главная — подборка, весь каталог живёт на /products
+        prods: products.slice(0, 8),
         pageTitle: 'Shop',
         path: '/'
       });
