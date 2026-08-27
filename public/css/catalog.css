@@ -8,7 +8,7 @@
 
 .catalog__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: var(--sp-8) var(--sp-6);
 }
 
@@ -34,7 +34,7 @@
     font-weight: 400;
     line-height: 1.2;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

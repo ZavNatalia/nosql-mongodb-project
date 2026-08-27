@@ -38,7 +38,7 @@
     --sp-7: 3rem;
     --sp-8: 4rem;
 
-    --page-max: 1180px;
+    --page-max: 1280px;
     --gutter: clamp(1rem, 4vw, 3rem);
     --measure: 66ch;
     --radius: 2px;
@@ -253,6 +253,20 @@ img {
 .btn--danger:focus-visible {
     text-decoration: underline;
     text-underline-offset: 0.35em;
+}
+
+/* Приглушённая кнопка: заливка почти не отличается от фона страницы,
+   поэтому форму ей задаёт рамка базового .btn */
+.btn--muted {
+    background: var(--paper-2);
+    border-color: var(--line);
+    color: var(--ink);
+}
+
+.btn--muted:hover,
+.btn--muted:focus-visible {
+    background: var(--line);
+    border-color: var(--ink-3);
 }
 
 .btn--accent {

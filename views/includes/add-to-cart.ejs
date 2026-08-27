@@ -5,6 +5,6 @@
     <form action="/cart" method="post">
         <input type="hidden" name="productId" value="<%= product._id %>">
         <input type="hidden" name="returnTo" value="<%= returnTo %>">
-        <button class="btn btn--primary <%= extra %>" type="submit">Add to cart</button>
+        <button class="btn btn--muted <%= extra %>" type="submit">Add to cart</button>
     </form>
 <% } %>
