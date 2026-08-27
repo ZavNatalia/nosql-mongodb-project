@@ -1,53 +1,52 @@
+<%
+    const isAdminPath = path.startsWith('/admin');
+    const SHOP_LINKS = [
+        { href: '/products', label: 'Books', match: p => p === '/products' || p === '/' },
+        { href: '/cart', label: 'Cart', match: p => p === '/cart' || p === '/checkout' },
+        { href: '/orders', label: 'Orders', match: p => p === '/orders' }
+    ];
+%>
 <div class="backdrop"></div>
-<header class="main-header">
-    <button id="side-menu-toggle">Menu</button>
-    <nav class="main-header__nav">
-        <ul class="main-header__item-list">
-            <li class="main-header__item">
-                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
-                </a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products
-                </a>
-            </li>
-        </ul>
-    </nav>
+
+<header class="masthead">
+    <div class="page masthead__inner">
+        <button id="side-menu-toggle" class="masthead__menu-btn" type="button" aria-label="Open menu">Menu</button>
+
+        <a class="masthead__brand" href="/">Bookstore</a>
+
+        <nav class="masthead__nav" aria-label="Main">
+            <ul class="masthead__links">
+                <% SHOP_LINKS.forEach(link => { %>
+                    <li>
+                        <a class="masthead__link <%= link.match(path) ? 'masthead__link--active' : '' %>"
+                           href="<%= link.href %>"
+                           <%= link.match(path) ? 'aria-current="page"' : '' %>><%= link.label %></a>
+                    </li>
+                <% }) %>
+            </ul>
+        </nav>
+
+        <div class="masthead__tools">
+            <button id="theme-toggle" class="masthead__theme-btn" type="button" aria-pressed="false">Theme</button>
+            <a class="masthead__admin <%= isAdminPath ? 'masthead__link--active' : '' %>" href="/admin/products">Admin</a>
+        </div>
+    </div>
+
+    <% if (isAdminPath) { %>
+        <div class="adminbar">
+            <div class="page adminbar__inner">
+                <a class="adminbar__link <%= path === '/admin/products' ? 'adminbar__link--active' : '' %>" href="/admin/products">All books</a>
+                <a class="adminbar__link <%= path === '/admin/add-product' ? 'adminbar__link--active' : '' %>" href="/admin/add-product">Add book</a>
+            </div>
+        </div>
+    <% } %>
 </header>
 
-<nav class="mobile-nav">
-        <ul class="mobile-nav__item-list">
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
-                    </a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products
-                    </a>
-                </li>
-            </ul>
+<nav class="mobile-nav" aria-label="Main, mobile">
+    <ul class="mobile-nav__links">
+        <% SHOP_LINKS.forEach(link => { %>
+            <li><a class="mobile-nav__link <%= link.match(path) ? 'mobile-nav__link--active' : '' %>" href="<%= link.href %>"><%= link.label %></a></li>
+        <% }) %>
+        <li><a class="mobile-nav__link <%= isAdminPath ? 'mobile-nav__link--active' : '' %>" href="/admin/products">Admin</a></li>
+    </ul>
 </nav>
