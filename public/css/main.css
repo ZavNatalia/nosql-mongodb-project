@@ -1,200 +1,348 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
-
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
+:root {
+    --paper: #faf8f5;
+    --paper-2: #f0ebe3;
+    --ink: #171512;
+    --ink-2: #6e6862;
+    --ink-3: #9a938a;
+    --line: #e3ddd4;
+    --accent: #7a3b2e;
+    --danger: #a4442e;
+    --cover-shadow: 0 6px 18px rgba(23, 21, 18, 0.22);
+    --cover-shadow-lg: 0 10px 28px rgba(23, 21, 18, 0.26);
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+
+    --fs-display: clamp(2.75rem, 7vw, 5rem);
+    --fs-h1: clamp(2rem, 4vw, 2.75rem);
+    --fs-h2: 1.5rem;
+    --fs-title: 1.0625rem;
+    --fs-body: 0.875rem;
+    --fs-ui: 0.8125rem;
+    --fs-meta: 0.6875rem;
+    --fs-eyebrow: 0.5625rem;
+
+    --sp-1: 0.25rem;
+    --sp-2: 0.5rem;
+    --sp-3: 0.75rem;
+    --sp-4: 1rem;
+    --sp-5: 1.5rem;
+    --sp-6: 2rem;
+    --sp-7: 3rem;
+    --sp-8: 4rem;
+
+    --page-max: 1180px;
+    --gutter: clamp(1rem, 4vw, 3rem);
+    --measure: 66ch;
+    --radius: 2px;
+}
+
+/* Тёмная палитра объявляется дважды: по системной настройке и по явному выбору.
+   Порядок важен — [data-theme] должен идти после media, чтобы перебивать его. */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+        --paper: #14120f;
+        --paper-2: #1e1b17;
+        --ink: #f2ede6;
+        --ink-2: #a9a199;
+        --ink-3: #7c746c;
+        --line: #2e2a25;
+        --accent: #c8836b;
+        --danger: #e0866c;
+        --cover-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+        --cover-shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.6);
+    }
+}
+
+:root[data-theme='dark'] {
+    --paper: #14120f;
+    --paper-2: #1e1b17;
+    --ink: #f2ede6;
+    --ink-2: #a9a199;
+    --ink-3: #7c746c;
+    --line: #2e2a25;
+    --accent: #c8836b;
+    --danger: #e0866c;
+    --cover-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    --cover-shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.6);
+}
+
 body {
-    padding: 0;
     margin: 0;
-    font-family: 'Open Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
 main {
-    padding: 1rem;
-    margin: auto;
+    padding: var(--sp-7) 0 var(--sp-8);
 }
 
-form {
-    display: inline;
+.page {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
 }
 
-.main-header {
-    width: 100%;
-    height: 3.5rem;
-    background-color: #00695c;
-    padding: 0 1.5rem;
-    display: flex;
-    align-items: center;
-}
-
-.main-header__nav {
-    height: 100%;
-    display: none;
-    align-items: center;
-}
-
-.main-header__item-list {
-    list-style: none;
+h1,
+h2,
+h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
     margin: 0;
-    padding: 0;
-    display: flex;
+    overflow-wrap: anywhere;
 }
 
-.main-header__item {
-    margin: 0 1rem;
-    padding: 0;
+h1 {
+    font-size: var(--fs-h1);
 }
 
-.main-header__item a {
-    text-decoration: none;
-    color: white;
+h2 {
+    font-size: var(--fs-h2);
 }
 
-.main-header__item a:hover,
-.main-header__item a:active,
-.main-header__item a.active {
-    color: #ffeb3b;
-}
-
-.mobile-nav {
-    width: 30rem;
-    height: 100vh;
-    max-width: 90%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    background: white;
-    z-index: 10;
-    padding: 2rem 1rem 1rem 2rem;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-out;
-}
-
-.mobile-nav.open {
-    transform: translateX(0);
-}
-
-.mobile-nav__item-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
+p {
     margin: 0;
-    padding: 0;
 }
 
-.mobile-nav__item {
-    margin: 1rem;
-    padding: 0;
-}
-
-.mobile-nav__item a {
+a {
+    color: inherit;
     text-decoration: none;
-    color: black;
-    font-size: 1.5rem;
-    padding: 0.5rem 2rem;
 }
 
-.mobile-nav__item a:active,
-.mobile-nav__item a:hover,
-.mobile-nav__item a.active {
-    background: #00695c;
-    color: white;
-    border-radius: 3px;
+img {
+    /* Пока картинка не загрузилась, в её месте виден alt — набираем его читаемо */
+    font-family: var(--font-ui);
+    font-size: var(--fs-meta);
+    color: var(--ink-3);
 }
 
-#side-menu-toggle {
-    border: 1px solid white;
-    font: inherit;
-    padding: 0.5rem;
-    display: block;
-    background: transparent;
-    color: white;
-    cursor: pointer;
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
-#side-menu-toggle:focus {
-    outline: none;
+.eyebrow {
+    font-size: var(--fs-eyebrow);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-3);
 }
 
-#side-menu-toggle:active,
-#side-menu-toggle:hover {
-    color: #ffeb3b;
-    border-color: #ffeb3b;
+.rule {
+    height: 1px;
+    background: var(--line);
+    border: 0;
+    margin: 0;
 }
 
-.backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 5;
-    display: none;
+.numeric {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
 }
 
-.grid {
+/* --- Обложка -------------------------------------------------------------
+   Общий механизм для витрины, страницы книги, корзины и заказов: подложка
+   фиксированной высоты, обложка внутри целиком и прижата к низу. Высоту
+   задаёт тот, кто использует. */
+
+[data-cover] {
+    background: var(--paper-2);
     display: flex;
-    flex-wrap: wrap;
+    align-items: flex-end;
     justify-content: center;
-    align-items: stretch;
+    overflow: hidden;
 }
 
-.card {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+[data-cover] img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    box-shadow: var(--cover-shadow);
 }
+
+/* Ссылка на обложку не открылась — вместо битой картинки ставим
+   типографскую заглушку с названием книги */
+[data-cover].is-missing img {
+    display: none;
+}
+
+[data-cover].is-missing::after {
+    content: attr(data-title);
+    align-self: center;
+    padding: var(--sp-3);
+    font-family: var(--font-display);
+    font-size: var(--fs-ui);
+    line-height: 1.25;
+    color: var(--ink-3);
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+/* --- Кнопки -------------------------------------------------------------- */
 
 .btn {
     display: inline-block;
-    padding: 0.2rem 0.8rem;
-    text-decoration: none;
     font: inherit;
-    border: 1px solid #00695c;
-    color: #00695c;
-    background: white;
-    border-radius: 0.6rem;
+    font-size: var(--fs-meta);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: var(--sp-3) var(--sp-5);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--ink);
     cursor: pointer;
-    font-size: 0.8rem;
+    text-align: center;
 }
 
 .btn:hover,
-.btn:active {
-    background-color: #00695c;
-    color: white;
+.btn:focus-visible {
+    border-color: var(--ink);
 }
 
 .btn--primary {
-    background: #00695c;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
 }
 
 .btn--primary:hover,
-.btn--primary:active {
-    background: #004d40;
-    border-color: #004d40;
-    color: white;
+.btn--primary:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
 }
 
-.btn.danger {
-    color: red;
-    border-color: red;
+.btn--primary[disabled] {
+    opacity: 0.45;
+    cursor: default;
 }
 
-.btn.danger:hover,
-.btn.danger:active {
-    background: red;
-    color: white;
+.btn--quiet {
+    border-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+    text-decoration: underline;
+    text-underline-offset: 0.35em;
 }
 
-@media (min-width: 768px) {
-    .main-header__nav {
-        display: flex;
-    }
+.btn--danger {
+    color: var(--danger);
+    border-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+}
 
-    #side-menu-toggle {
-        display: none;
-    }
+.btn--danger:hover,
+.btn--danger:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.35em;
+}
+
+/* --- Поля ---------------------------------------------------------------- */
+
+form {
+    margin: 0;
+}
+
+.form-control {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+}
+
+.form-control label {
+    font-size: var(--fs-eyebrow);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+.form-control input,
+.form-control textarea,
+.form-control select {
+    font: inherit;
+    font-size: var(--fs-body);
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    padding: var(--sp-2) 0;
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+}
+
+.form-control textarea {
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.form-control input[aria-invalid='true'],
+.form-control textarea[aria-invalid='true'] {
+    border-bottom-color: var(--danger);
+}
+
+.form-control__error {
+    font-size: var(--fs-meta);
+    color: var(--danger);
+}
+
+/* Пометка «(optional)» в подписи поля — используется в форме чекаута */
+.form-control__optional {
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    text-transform: none;
+}
+
+.form-errors {
+    border-left: 2px solid var(--danger);
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--paper-2);
+}
+
+.form-errors__title {
+    font-size: var(--fs-ui);
+    color: var(--danger);
+}
+
+.form-errors__list {
+    margin: var(--sp-2) 0 0;
+    padding-left: var(--sp-4);
+    font-size: var(--fs-ui);
+    color: var(--ink-2);
+}
+
+.form-errors__list a {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+/* --- Пустые состояния ---------------------------------------------------- */
+
+.empty-state {
+    max-width: 40ch;
+    padding: var(--sp-8) 0;
+}
+
+.empty-state__text {
+    color: var(--ink-2);
+    margin: var(--sp-4) 0 var(--sp-6);
 }
