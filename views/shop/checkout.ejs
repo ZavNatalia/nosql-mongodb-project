@@ -1,5 +1,4 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/checkout.css">
     </head>
 
@@ -20,9 +19,10 @@
                 const totalPrice = products.reduce((sum, p) => sum + Number(p.price) * p.quantity, 0);
                 const totalItems = products.reduce((sum, p) => sum + p.quantity, 0);
             %>
+            <div class="page">
             <div class="checkout">
-                <form class="form-card checkout__form" action="/checkout" method="POST">
-                    <h1 class="checkout__title">Checkout</h1>
+                <form class="checkout__form" action="/checkout" method="POST">
+                    <h1>Checkout</h1>
 
                     <% if (errorFields.length > 0) { %>
                         <div class="form-errors" role="alert">
@@ -113,26 +113,41 @@
                     </div>
 
                     <div class="checkout__actions">
-                        <button class="btn btn--primary" type="submit">Place Order</button>
-                        <a class="btn" href="/cart">Back to cart</a>
+                        <button class="btn btn--primary" type="submit">Place order</button>
+                        <a class="btn btn--quiet" href="/cart">Back to cart</a>
                     </div>
                 </form>
 
                 <aside class="checkout__summary">
-                    <h2 class="checkout__summary-title">Order summary</h2>
-                    <ul class="checkout__summary-list">
+                    <header class="checkout__summary-header">
+                        <h2 class="checkout__summary-title">Your order</h2>
+                        <span class="eyebrow"><%= totalItems %> item<%= totalItems === 1 ? '' : 's' %></span>
+                    </header>
+
+                    <ul class="checkout__lines">
                         <% products.forEach(p => { %>
-                            <li class="checkout__summary-item">
-                                <span class="checkout__summary-name"><%= p.title %> &times; <%= p.quantity %></span>
-                                <span class="checkout__summary-price">$<%= (Number(p.price) * p.quantity).toFixed(2) %></span>
+                            <li class="checkout__line">
+                                <div class="checkout__line-cover" data-cover data-title="<%= p.title %>">
+                                    <img src="<%= p.imageUrl %>" alt="" loading="lazy" decoding="async">
+                                </div>
+                                <div class="checkout__line-info">
+                                    <span class="checkout__line-title"><%= p.title %></span>
+                                    <% if (p.author) { %>
+                                        <span class="checkout__line-author"><%= p.author %></span>
+                                    <% } %>
+                                    <span class="checkout__line-qty">&times; <%= p.quantity %></span>
+                                </div>
+                                <span class="numeric checkout__line-total">$<%= (Number(p.price) * p.quantity).toFixed(2) %></span>
                             </li>
                         <% }) %>
                     </ul>
-                    <p class="checkout__summary-total">
-                        <span>Total (<%= totalItems %> item<%= totalItems === 1 ? '' : 's' %>)</span>
-                        <strong>$<%= totalPrice.toFixed(2) %></strong>
-                    </p>
+
+                    <div class="checkout__total-row">
+                        <span class="eyebrow">Total</span>
+                        <span class="numeric checkout__total">$<%= totalPrice.toFixed(2) %></span>
+                    </div>
                 </aside>
+            </div>
             </div>
         </main>
         <%- include('../includes/end.ejs') %>
