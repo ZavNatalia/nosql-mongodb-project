@@ -78,3 +78,41 @@ test('отклоняет год и число страниц вне допуст
   assert.ok(validateBook({ ...VALID_BODY, pages: '0' }).errors.pages);
   assert.ok(validateBook({ ...VALID_BODY, pages: '12.5' }).errors.pages);
 });
+
+test('отклоняет превышение длины у каждого строкового поля', () => {
+  const { errors } = validateBook({
+    ...VALID_BODY,
+    title: 'a'.repeat(201),
+    author: 'a'.repeat(121),
+    imageUrl: 'https://example.com/' + 'a'.repeat(2048),
+    description: 'a'.repeat(2001),
+    publisher: 'a'.repeat(121),
+    genre: 'a'.repeat(61)
+  });
+
+  assert.deepEqual(Object.keys(errors).sort(), [
+    'author',
+    'description',
+    'genre',
+    'imageUrl',
+    'publisher',
+    'title'
+  ]);
+});
+
+test('проверяет границы числовых полей', () => {
+  // Границу года считаем от текущего года — иначе тест протухнет в январе
+  const MAX_YEAR = new Date().getFullYear() + 1;
+
+  assert.ok(validateBook({ ...VALID_BODY, price: '100000' }).errors.price);
+  assert.equal(validateBook({ ...VALID_BODY, price: '99999.99' }).errors.price, undefined);
+  assert.equal(validateBook({ ...VALID_BODY, price: '0' }).errors.price, undefined);
+
+  assert.equal(validateBook({ ...VALID_BODY, pages: '1' }).errors.pages, undefined);
+  assert.equal(validateBook({ ...VALID_BODY, pages: '10000' }).errors.pages, undefined);
+  assert.ok(validateBook({ ...VALID_BODY, pages: '10001' }).errors.pages);
+
+  assert.equal(validateBook({ ...VALID_BODY, year: '1450' }).errors.year, undefined);
+  assert.equal(validateBook({ ...VALID_BODY, year: String(MAX_YEAR) }).errors.year, undefined);
+  assert.ok(validateBook({ ...VALID_BODY, year: String(MAX_YEAR + 1) }).errors.year);
+});
