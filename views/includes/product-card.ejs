@@ -18,4 +18,7 @@
             </div>
         </div>
     </a>
+    <div class="book-card__action">
+        <%- include('./add-to-cart.ejs', { product: product, inCart: cartProductIds.includes(product._id.toString()), returnTo: returnTo, extraClass: '' }) %>
+    </div>
 </article>

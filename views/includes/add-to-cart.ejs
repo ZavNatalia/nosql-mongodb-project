@@ -1,4 +1,10 @@
-<form action="/cart" method="post">
-    <input type="hidden" name="productId" value="<%= product._id %>">
-    <button class="btn btn--primary book__add-btn" type="submit">Add to cart</button>
-</form>
+<% const extra = locals.extraClass || ''; %>
+<% if (inCart) { %>
+    <a class="btn btn--accent <%= extra %>" href="/cart">In cart &rarr;</a>
+<% } else { %>
+    <form action="/cart" method="post">
+        <input type="hidden" name="productId" value="<%= product._id %>">
+        <input type="hidden" name="returnTo" value="<%= returnTo %>">
+        <button class="btn btn--primary <%= extra %>" type="submit">Add to cart</button>
+    </form>
+<% } %>
