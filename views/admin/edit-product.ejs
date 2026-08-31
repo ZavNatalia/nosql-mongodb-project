@@ -62,10 +62,12 @@
                         <% if (errors.publisher) { %><p class="form-control__error" id="publisher-error"><%= errors.publisher %></p><% } %>
                     </div>
 
-                    <div class="form-control form-control--check">
-                        <input type="checkbox" id="available" name="available" value="true"
-                               <%= values.available ? 'checked' : '' %>>
-                        <label for="available">Available</label>
+                    <div class="form-control">
+                        <label for="price">Price</label>
+                        <input type="number" id="price" name="price" step="0.01" min="0" required
+                               value="<%= values.price %>"
+                               <% if (errors.price) { %>aria-invalid="true" aria-describedby="price-error"<% } %>>
+                        <% if (errors.price) { %><p class="form-control__error" id="price-error"><%= errors.price %></p><% } %>
                     </div>
 
                     <div class="form-control">
@@ -84,12 +86,10 @@
                         <% if (errors.pages) { %><p class="form-control__error" id="pages-error"><%= errors.pages %></p><% } %>
                     </div>
 
-                    <div class="form-control">
-                        <label for="price">Price</label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" required
-                               value="<%= values.price %>"
-                               <% if (errors.price) { %>aria-invalid="true" aria-describedby="price-error"<% } %>>
-                        <% if (errors.price) { %><p class="form-control__error" id="price-error"><%= errors.price %></p><% } %>
+                    <div class="form-control form-control--check">
+                        <input type="checkbox" id="available" name="available" value="true"
+                               <%= values.available ? 'checked' : '' %>>
+                        <label for="available">Available</label>
                     </div>
 
                     <div class="book-form__cover">

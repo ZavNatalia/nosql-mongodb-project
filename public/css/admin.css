@@ -125,8 +125,6 @@
     flex-direction: row;
     align-items: center;
     gap: var(--sp-3);
-    align-self: end;
-    padding-bottom: var(--sp-2);
 }
 
 .form-control--check input {
