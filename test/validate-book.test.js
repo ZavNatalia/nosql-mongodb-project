@@ -12,7 +12,7 @@ const VALID_BODY = {
   publisher: ' Little Toller ',
   year: '2021',
   pages: '288',
-  genre: ' Fiction '
+  available: 'true'
 };
 
 test('очищает значения и не находит ошибок в корректном вводе', () => {
@@ -24,7 +24,7 @@ test('очищает значения и не находит ошибок в к�
   assert.equal(book.price, 24);
   assert.equal(book.year, 2021);
   assert.equal(book.pages, 288);
-  assert.equal(book.genre, 'Fiction');
+  assert.equal(book.available, true);
 });
 
 test('сохраняет абзацы в описании, схлопывая пробелы только по краям', () => {
@@ -45,20 +45,20 @@ test('сообщает об ошибке по каждому обязатель�
   ]);
 });
 
-test('пустые необязательные поля ошибкой не считаются и дают null', () => {
+test('пустые необязательные поля ошибкой не считаются', () => {
   const { errors, book } = validateBook({
     ...VALID_BODY,
     publisher: '',
     year: '',
     pages: '',
-    genre: ''
+    available: undefined
   });
 
   assert.deepEqual(errors, {});
   assert.equal(book.publisher, null);
   assert.equal(book.year, null);
   assert.equal(book.pages, null);
-  assert.equal(book.genre, null);
+  assert.equal(book.available, false);
 });
 
 test('отклоняет ссылку на обложку не по http', () => {
@@ -86,14 +86,12 @@ test('отклоняет превышение длины у каждого ст�
     author: 'a'.repeat(121),
     imageUrl: 'https://example.com/' + 'a'.repeat(2048),
     description: 'a'.repeat(2001),
-    publisher: 'a'.repeat(121),
-    genre: 'a'.repeat(61)
+    publisher: 'a'.repeat(121)
   });
 
   assert.deepEqual(Object.keys(errors).sort(), [
     'author',
     'description',
-    'genre',
     'imageUrl',
     'publisher',
     'title'
@@ -115,4 +113,21 @@ test('проверяет границы числовых полей', () => {
   assert.equal(validateBook({ ...VALID_BODY, year: '1450' }).errors.year, undefined);
   assert.equal(validateBook({ ...VALID_BODY, year: String(MAX_YEAR) }).errors.year, undefined);
   assert.ok(validateBook({ ...VALID_BODY, year: String(MAX_YEAR + 1) }).errors.year);
+});
+
+test('снятый флажок доступности приходит как отсутствующее поле', () => {
+  const off = validateBook({ ...VALID_BODY, available: undefined });
+  const on = validateBook({ ...VALID_BODY, available: 'true' });
+
+  assert.equal(off.book.available, false);
+  assert.equal(off.values.available, false);
+  assert.equal(on.book.available, true);
+  assert.equal(on.values.available, true);
+  assert.equal(off.errors.available, undefined);
+});
+
+test('на месте флажка не принимает произвольное значение', () => {
+  assert.equal(validateBook({ ...VALID_BODY, available: 'yes' }).book.available, false);
+  assert.equal(validateBook({ ...VALID_BODY, available: '1' }).book.available, false);
+  assert.equal(validateBook({ ...VALID_BODY, available: true }).book.available, false);
 });

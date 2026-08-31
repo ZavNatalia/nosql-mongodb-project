@@ -1,6 +1,7 @@
 const Product = require('../models/product');
 const validateCheckout = require('../util/validate-checkout');
 const safeReturnTo = require('../util/safe-return-to');
+const isAvailable = require('../util/is-available');
 
 const EMPTY_CHECKOUT_VALUES = {
   name: '',
@@ -79,7 +80,8 @@ exports.postCart = (req, res, next) => {
 
   Product.findById(req.body.productId)
     .then(product => {
-      if (!product) {
+      // Кнопки у снятой с продажи книги нет, но форму можно отправить и вручную
+      if (!isAvailable(product)) {
         return null;
       }
       return req.user.addToCart(product);

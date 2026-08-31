@@ -16,13 +16,15 @@
                         publisher: 'Publisher',
                         year: 'Year',
                         pages: 'Pages',
-                        genre: 'Genre'
+                        available: 'Available'
                     };
                     const errorFields = Object.keys(errors);
                 %>
 
                 <p class="eyebrow"><%= editing ? 'Edit book' : 'Add book' %></p>
-                <h1 class="book-form__title"><%= values.title || 'Untitled' %></h1>
+                <% if (editing) { %>
+                    <h1 class="book-form__title"><%= values.title %></h1>
+                <% } %>
 
                 <form class="book-form" action="/admin/<%= editing ? 'edit-product' : 'add-product' %>" method="POST">
                     <% if (errorFields.length > 0) { %>
@@ -60,12 +62,10 @@
                         <% if (errors.publisher) { %><p class="form-control__error" id="publisher-error"><%= errors.publisher %></p><% } %>
                     </div>
 
-                    <div class="form-control">
-                        <label for="genre">Genre</label>
-                        <input type="text" id="genre" name="genre" maxlength="60"
-                               value="<%= values.genre %>"
-                               <% if (errors.genre) { %>aria-invalid="true" aria-describedby="genre-error"<% } %>>
-                        <% if (errors.genre) { %><p class="form-control__error" id="genre-error"><%= errors.genre %></p><% } %>
+                    <div class="form-control form-control--check">
+                        <input type="checkbox" id="available" name="available" value="true"
+                               <%= values.available ? 'checked' : '' %>>
+                        <label for="available">Available</label>
                     </div>
 
                     <div class="form-control">

@@ -12,7 +12,7 @@ class Product {
         publisher,
         year,
         pages,
-        genre,
+        available,
         id,
         userId
     }) {
@@ -24,7 +24,7 @@ class Product {
         this.publisher = publisher;
         this.year = year;
         this.pages = pages;
-        this.genre = genre;
+        this.available = available;
         this._id = id ? new ObjectId(id) : null;
         this.userId = userId;
     }
@@ -41,7 +41,7 @@ class Product {
             publisher: this.publisher,
             year: this.year,
             pages: this.pages,
-            genre: this.genre,
+            available: this.available,
             userId: this.userId
         };
     }

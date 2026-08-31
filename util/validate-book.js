@@ -7,6 +7,9 @@ function clean(value) {
   return typeof value === 'string' ? value.trim().replace(/\s+/g, ' ') : '';
 }
 
+// Невыставленный чекбокс браузер не отправляет вовсе, поэтому флаг доступности
+// читается как «пришло ровно 'true'», а не как длина строки
+
 // Описание — это абзацы, переносы строк в нём осмысленны
 function cleanText(value) {
   return typeof value === 'string' ? value.trim() : '';
@@ -22,7 +25,7 @@ function validateBook(body = {}) {
     publisher: clean(body.publisher),
     year: clean(body.year),
     pages: clean(body.pages),
-    genre: clean(body.genre)
+    available: body.available === 'true'
   };
 
   const errors = {};
@@ -65,10 +68,6 @@ function validateBook(body = {}) {
     errors.pages = 'Enter a page count between 1 and 10000.';
   }
 
-  if (values.genre.length > 60) {
-    errors.genre = 'Keep the genre under 60 characters.';
-  }
-
   const book = {
     title: values.title,
     author: values.author,
@@ -78,7 +77,7 @@ function validateBook(body = {}) {
     publisher: values.publisher === '' ? null : values.publisher,
     year: values.year === '' ? null : year,
     pages: values.pages === '' ? null : pages,
-    genre: values.genre === '' ? null : values.genre
+    available: values.available
   };
 
   return { values: values, errors: errors, book: book };

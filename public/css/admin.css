@@ -118,3 +118,20 @@
         display: none;
     }
 }
+
+/* Чекбокс ломает вертикальную раскладку .form-control: подпись встаёт рядом,
+   а базовые правила поля (нижняя линейка, отступы) для него не нужны */
+.form-control--check {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--sp-3);
+    align-self: end;
+    padding-bottom: var(--sp-2);
+}
+
+.form-control--check input {
+    width: auto;
+    border-bottom: 0;
+    padding: 0;
+    accent-color: var(--accent);
+}

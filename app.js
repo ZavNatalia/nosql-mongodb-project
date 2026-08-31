@@ -11,6 +11,10 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+// Доступность книги решает и сервер, и шаблоны — отдаём им одну и ту же функцию,
+// чтобы правило не пришлось повторять в разметке
+app.locals.isAvailable = require('./util/is-available');
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 

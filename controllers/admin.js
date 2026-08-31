@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const validateBook = require('../util/validate-book');
+const isAvailable = require('../util/is-available');
 
 const EMPTY_BOOK_VALUES = {
   title: '',
@@ -10,7 +11,7 @@ const EMPTY_BOOK_VALUES = {
   publisher: '',
   year: '',
   pages: '',
-  genre: ''
+  available: true
 };
 
 exports.getAddProduct = (req, res, next) => {
@@ -72,7 +73,7 @@ exports.getEditProduct = (req, res, next) => {
           publisher: product.publisher || '',
           year: product.year === undefined || product.year === null ? '' : String(product.year),
           pages: product.pages === undefined || product.pages === null ? '' : String(product.pages),
-          genre: product.genre || ''
+          available: isAvailable(product)
         },
         errors: {}
       });
