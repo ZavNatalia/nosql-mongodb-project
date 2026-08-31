@@ -1,15 +1,18 @@
 .book-form__title {
     font-size: var(--fs-h1);
-    margin: var(--sp-2) 0 var(--sp-6);
+    margin: var(--sp-2) 0 0;
     color: var(--ink);
 }
 
+/* Отступ до формы держит сама форма: заголовок есть только при
+   редактировании, а при добавлении над формой стоит один надзаголовок */
 .book-form {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--sp-5) var(--sp-5);
     align-items: start;
     max-width: 900px;
+    margin-top: var(--sp-6);
 }
 
 .book-form__wide,
@@ -18,11 +21,13 @@
     grid-column: 1 / -1;
 }
 
+/* Поле и превью начинаются на одной высоте: при выравнивании по низу
+   над подписью «Cover URL» повисала пустота в высоту превью */
 .book-form__cover {
     display: grid;
     grid-template-columns: 1fr 120px;
     gap: var(--sp-5);
-    align-items: end;
+    align-items: start;
 }
 
 .book-form__preview {
