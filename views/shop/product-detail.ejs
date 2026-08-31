@@ -25,7 +25,7 @@
 
                     <aside class="book__buy">
                         <p class="numeric book__price">$<%= Number(product.price).toFixed(2) %></p>
-                        <%- include('../includes/add-to-cart.ejs', { product: product, inCart: cartProductIds.includes(product._id.toString()), returnTo: '/products/' + product._id, extraClass: 'book__add-btn btn--accent' }) %>
+                        <%- include('../includes/add-to-cart.ejs', { product: product, inCart: cartProductIds.includes(product._id.toString()), returnTo: '/products/' + product._id, extraClass: 'book__add-btn', variant: 'primary' }) %>
 
                         <% if (product.publisher || product.year || product.pages) { %>
                             <dl class="book__specs">
