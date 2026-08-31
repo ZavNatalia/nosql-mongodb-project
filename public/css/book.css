@@ -1,3 +1,7 @@
+.book__buy {
+    width: 260px;
+}
+
 .book__crumb {
     margin-bottom: var(--sp-5);
 }
@@ -8,11 +12,11 @@
 
 .book__title {
     font-size: var(--fs-display);
-    max-width: 16ch;
+    max-width: 22ch;
 }
 
 .book__author {
-    font-size: 1.1875rem;
+    font-size: var(--fs-ui);
     color: var(--ink-2);
     margin-top: var(--sp-4);
 }

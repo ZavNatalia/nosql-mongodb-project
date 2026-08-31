@@ -27,7 +27,7 @@
                                     <% if (p.author) { %>
                                         <p class="cart__author"><%= p.author %></p>
                                     <% } %>
-                                    <p class="cart__unit">$<%= Number(p.price).toFixed(2) %> each</p>
+                                    <p class="cart__unit">$<%= Number(p.price).toFixed(2) %></p>
                                 </div>
 
                                 <div class="cart__stepper">
@@ -61,7 +61,7 @@
                             <span class="numeric cart__total">$<%= totalPrice.toFixed(2) %></span>
                         </div>
                         <form action="/checkout" method="GET">
-                            <button type="submit" class="btn btn--primary cart__order-btn">Checkout</button>
+                            <button type="submit" class="btn btn--accent cart__order-btn">Checkout</button>
                         </form>
                     </section>
                 <% } else { %>
