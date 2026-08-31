@@ -17,9 +17,12 @@
     --cover-shadow: 0 6px 18px rgba(23, 21, 18, 0.22);
     --cover-shadow-lg: 0 10px 28px rgba(23, 21, 18, 0.26);
 
-    /*--font-display: 'Fraunces', Georgia, serif;*/
-    --font-display: 'Inter', system-ui, -apple-system, sans-serif;
     --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Отдельного дисплейного начертания сейчас нет: заголовки, цены и
+       названия говорят тем же голосом. Роль оставлена, чтобы вернуть второй
+       шрифт можно было в одной строке, не трогая места использования */
+    --font-display: var(--font-ui);
 
     --fs-display: clamp(2.75rem, 7vw, 3rem);
     --fs-h1: clamp(2.25rem, 4vw, 3rem);
