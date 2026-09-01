@@ -18,10 +18,6 @@
     --cover-shadow-lg: 0 10px 28px rgba(23, 21, 18, 0.26);
 
     --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
-
-    /* Отдельного дисплейного начертания сейчас нет: заголовки, цены и
-       названия говорят тем же голосом. Роль оставлена, чтобы вернуть второй
-       шрифт можно было в одной строке, не трогая места использования */
     --font-display: var(--font-ui);
 
     --fs-display: clamp(2.75rem, 7vw, 3rem);
@@ -46,6 +42,10 @@
     --gutter: clamp(1rem, 4vw, 3rem);
     --measure: 66ch;
     --radius: 2px;
+
+    /* Положение переключателя темы читается из той же тройки блоков, что и
+       палитра: тогда он нарисован верно ещё до загрузки скрипта */
+    --is-dark: 0;
 }
 
 /* Тёмная палитра объявляется дважды: по системной настройке и по явному выбору.
@@ -63,6 +63,7 @@
         --overlay: rgba(0, 0, 0, 0.6);
         --cover-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
         --cover-shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.6);
+        --is-dark: 1;
     }
 }
 
@@ -78,6 +79,7 @@
     --overlay: rgba(0, 0, 0, 0.6);
     --cover-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
     --cover-shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.6);
+    --is-dark: 1;
 }
 
 body {
@@ -451,8 +453,7 @@ form {
 }
 
 .masthead__link,
-.masthead__admin,
-.masthead__theme-btn {
+.masthead__admin {
     font-size: var(--fs-meta);
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -473,20 +474,83 @@ form {
 
 .masthead__tools {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: var(--sp-4);
 }
 
-.masthead__theme-btn {
-    font-family: var(--font-ui);
+/* Переключатель темы: дорожка с ползунком, на ползунке — солнце или месяц.
+   Состояние берётся из --is-dark, поэтому разметка ничего о теме не знает */
+.theme-switch {
+    display: block;
     background: transparent;
     border: 0;
-    padding: 0;
+    padding: var(--sp-2);
+    margin: calc(var(--sp-2) * -1);
+    line-height: 0;
     cursor: pointer;
+    color: var(--ink-3);
 }
 
-.masthead__theme-btn:hover {
-    color: var(--ink);
+.theme-switch__track {
+    display: block;
+    position: relative;
+    width: 54px;
+    height: 28px;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--paper-2);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.theme-switch:hover .theme-switch__track {
+    border-color: var(--ink-3);
+}
+
+.theme-switch:focus-visible {
+    outline: none;
+}
+
+.theme-switch:focus-visible .theme-switch__track {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.theme-switch__knob {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--paper);
+    transform: translateX(calc(var(--is-dark) * 26px));
+    transition: transform 0.28s cubic-bezier(0.4, 0.14, 0.3, 1);
+}
+
+/* Обе иконки лежат в одной ячейке грида и меняются местами по прозрачности */
+.theme-switch__icon {
+    grid-area: 1 / 1;
+    width: 13px;
+    height: 13px;
+    transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.4, 0.14, 0.3, 1);
+}
+
+.theme-switch__icon--sun {
+    opacity: calc(1 - var(--is-dark));
+    transform: rotate(calc(var(--is-dark) * -90deg));
+}
+
+.theme-switch__icon--moon {
+    opacity: var(--is-dark);
+    transform: rotate(calc((1 - var(--is-dark)) * 90deg));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-switch__knob,
+    .theme-switch__icon {
+        transition: none;
+    }
 }
 
 .masthead__admin {
