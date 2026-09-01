@@ -1,14 +1,32 @@
-.book__crumb {
-    margin-bottom: var(--sp-5);
+/* Страница книги уже полосы контента и стоит по центру: крошки, разворот и
+   описание держат одну левую кромку, иначе центрованный блок разъезжается
+   с тем, что над ним */
+.book {
+    max-width: calc(380px + var(--sp-7) + 38rem);
+    margin-inline: auto;
 }
 
-.book__crumb a:hover {
-    color: var(--ink);
+/* Разворот: слева обложка, справа всё, что о книге известно, кроме описания.
+   Описание идёт ниже отдельной секцией — ему нужна своя мера строки */
+.book__spread {
+    display: grid;
+    grid-template-columns: 380px minmax(0, 1fr);
+    gap: var(--sp-7);
+    align-items: start;
+}
+
+.book__cover {
+    height: 460px;
+    padding: var(--sp-4) var(--sp-4) 0;
+}
+
+.book__cover img {
+    box-shadow: var(--cover-shadow-lg);
 }
 
 .book__title {
-    font-size: var(--fs-display);
-    max-width: 22ch;
+    font-size: var(--fs-h1);
+    margin: 0;
 }
 
 .book__author {
@@ -18,65 +36,59 @@
 }
 
 .book__rule {
-    margin: var(--sp-6) 0;
+    margin: var(--sp-5) 0;
 }
 
-.book__spread {
+.book__price {
+    font-size: 1.75rem;
+    margin: 0 0 var(--sp-5);
+}
+
+/* Ширину задаёт слот, а не то, что в него попало: кнопка, ссылка «в корзине»
+   и плашка «нет в продаже» — три разных элемента одного места */
+.book__action {
+    max-width: 320px;
+}
+
+.book__add-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.book__specs {
     display: grid;
-    grid-template-columns: 210px minmax(0, 1fr) 260px;
-    gap: var(--sp-7);
-    align-items: start;
+    grid-template-columns: max-content 1fr;
+    gap: var(--sp-2) var(--sp-6);
+    margin: var(--sp-6) 0 0;
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--line);
+    font-size: var(--fs-meta);
 }
 
-.book__cover {
-    height: 300px;
-    padding: var(--sp-4) var(--sp-4) 0;
+.book__specs dt {
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
-.book__cover img {
-    box-shadow: var(--cover-shadow-lg);
+.book__specs dd {
+    margin: 0;
+    color: var(--ink-2);
+}
+
+.book__about {
+    margin-top: var(--sp-7);
+}
+
+.book__about-title {
+    margin: var(--sp-5) 0 var(--sp-4);
 }
 
 .book__description {
     max-width: var(--measure);
     color: var(--ink-2);
     line-height: 1.7;
-}
-
-.book__price {
-    font-size: 1.75rem;
-    margin-bottom: var(--sp-4);
-}
-
-.book__add-btn {
-    display: block;
-    width: 100%;
-}
-
-.book__specs {
-    margin: var(--sp-6) 0 0;
-    padding-top: var(--sp-3);
-    border-top: 1px solid var(--line);
-    font-size: var(--fs-meta);
-}
-
-.book__spec {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--sp-3);
-    padding: var(--sp-1) 0;
-}
-
-.book__spec dt {
-    color: var(--ink-3);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.book__spec dd {
-    margin: 0;
-    color: var(--ink-2);
-    text-align: right;
 }
 
 @media (max-width: 899px) {
@@ -86,10 +98,7 @@
     }
 
     .book__cover {
-        max-width: 210px;
-    }
-
-    .book__buy {
-        max-width: 260px;
+        height: 360px;
+        max-width: 300px;
     }
 }

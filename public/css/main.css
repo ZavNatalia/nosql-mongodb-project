@@ -683,6 +683,19 @@ form {
     }
 }
 
+/* Ниже 768px разделы шапки уезжают в выдвижное меню — Admin вместе с ними,
+   он там уже есть. В строке ему места нет: на узком экране шапка не
+   помещалась и уходила за правый край, утаскивая туда всю страницу */
+@media (max-width: 767px) {
+    .masthead__inner {
+        gap: var(--sp-4);
+    }
+
+    .masthead__admin {
+        display: none;
+    }
+}
+
 .visually-hidden {
     position: absolute;
     width: 1px;
