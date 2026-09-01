@@ -15,6 +15,9 @@ app.set('views', 'views');
 // чтобы правило не пришлось повторять в разметке
 app.locals.isAvailable = require('./util/is-available');
 
+// Дерево страниц тоже общее: шаблоны получают готовую тропу по своему path
+app.locals.breadcrumbs = require('./util/breadcrumbs');
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 

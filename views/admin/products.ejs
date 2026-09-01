@@ -6,6 +6,7 @@
         <%- include('../includes/navigation.ejs') %>
         <main>
             <div class="page">
+                <%- include('../includes/breadcrumbs.ejs', { trail: breadcrumbs(path) }) %>
                 <% if (prods.length > 0) { %>
                     <header class="admin-books__header">
                         <h1>All books</h1>

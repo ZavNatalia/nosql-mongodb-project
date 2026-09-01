@@ -1,0 +1,15 @@
+<% if (trail.length > 0) { %>
+    <nav class="crumbs" aria-label="Breadcrumb">
+        <ol class="crumbs__list">
+            <% trail.forEach(crumb => { %>
+                <li class="crumbs__item">
+                    <% if (crumb.href) { %>
+                        <a class="crumbs__link" href="<%= crumb.href %>"><%= crumb.label %></a>
+                    <% } else { %>
+                        <span class="crumbs__current" aria-current="page"><%= crumb.label %></span>
+                    <% } %>
+                </li>
+            <% }) %>
+        </ol>
+    </nav>
+<% } %>

@@ -557,6 +557,51 @@ form {
     color: var(--ink-3);
 }
 
+/* --- Хлебные крошки ------------------------------------------------------ */
+
+/* Крошки — надзаголовок к h1, поэтому живут в контенте, а не полосой под
+   шапкой: они выровнены по той же левой кромке, что и заголовок страницы */
+.crumbs {
+    margin-bottom: var(--sp-5);
+}
+
+.crumbs__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--sp-2) var(--sp-3);
+    font-size: var(--fs-meta);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.crumbs__item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-3);
+}
+
+/* Разделитель рисуется, а не пишется в разметке: читать его вслух незачем */
+.crumbs__item + .crumbs__item::before {
+    content: '/';
+    color: var(--line);
+}
+
+.crumbs__link {
+    color: var(--ink-2);
+}
+
+.crumbs__link:hover {
+    color: var(--ink);
+}
+
+.crumbs__current {
+    color: var(--ink-3);
+}
+
 .adminbar {
     border-top: 1px solid var(--line);
     background: var(--paper-2);

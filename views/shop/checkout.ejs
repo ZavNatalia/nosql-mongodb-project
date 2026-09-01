@@ -20,6 +20,7 @@
                 const totalItems = products.reduce((sum, p) => sum + p.quantity, 0);
             %>
             <div class="page">
+                <%- include('../includes/breadcrumbs.ejs', { trail: breadcrumbs(path) }) %>
             <div class="checkout">
                 <form class="checkout__form" action="/checkout" method="POST">
                     <h1>Checkout</h1>

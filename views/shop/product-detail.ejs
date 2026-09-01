@@ -6,6 +6,7 @@
         <%- include('../includes/navigation.ejs') %>
         <main>
             <div class="page">
+                <%- include('../includes/breadcrumbs.ejs', { trail: breadcrumbs(path, product.title) }) %>
 
                 <h1 class="book__title"><%= product.title %></h1>
                 <% if (product.author) { %>
