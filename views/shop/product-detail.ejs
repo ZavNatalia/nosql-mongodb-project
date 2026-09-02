@@ -1,19 +1,57 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/book.css">
     </head>
 
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
-            <div class="product-detail">
-                <div class="product-detail__image">
-                    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
-                </div>
-                <div>
-                    <h1 class="product-detail__title"><%= product.title %></h1>
-                    <p class="product-detail__price">$<%= Number(product.price).toFixed(2) %></p>
-                    <p class="product-detail__description"><%= product.description %></p>
-                    <%- include('../includes/add-to-cart.ejs', { product: product }) %>
+            <div class="page">
+                <div class="book">
+                    <%- include('../includes/breadcrumbs.ejs', { trail: breadcrumbs(path, product.title) }) %>
+
+                    <div class="book__spread">
+                        <div class="book__cover" data-cover data-title="<%= product.title %>">
+                            <%- include('../includes/cover.ejs', { imageUrl: product.imageUrl, alt: 'Cover of ' + product.title }) %>
+                        </div>
+
+                        <div class="book__info">
+                            <h1 class="book__title"><%= product.title %></h1>
+                            <% if (product.author) { %>
+                                <p class="book__author"><%= product.author %></p>
+                            <% } %>
+
+                            <hr class="rule book__rule">
+
+                            <p class="numeric book__price">$<%= Number(product.price).toFixed(2) %></p>
+                            <div class="book__action">
+                                <%- include('../includes/add-to-cart.ejs', { product: product, inCart: cartProductIds.includes(product._id.toString()), returnTo: '/products/' + product._id, extraClass: 'book__add-btn', variant: 'primary' }) %>
+                            </div>
+
+                            <% if (product.publisher || product.year || product.pages) { %>
+                                <dl class="book__specs">
+                                    <% if (product.publisher) { %>
+                                        <dt>Publisher</dt><dd><%= product.publisher %></dd>
+                                    <% } %>
+                                    <% if (product.year) { %>
+                                        <dt>Published</dt><dd><%= product.year %></dd>
+                                    <% } %>
+                                    <% if (product.pages) { %>
+                                        <dt>Pages</dt><dd><%= product.pages %></dd>
+                                    <% } %>
+                                </dl>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <% if (product.description) { %>
+                        <section class="book__about">
+                            <hr class="rule">
+                            <h2 class="eyebrow book__about-title">About the book</h2>
+                            <div class="book__description">
+                                <p><%= product.description %></p>
+                            </div>
+                        </section>
+                    <% } %>
                 </div>
             </div>
         </main>

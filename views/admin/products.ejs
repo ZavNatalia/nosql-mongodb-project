@@ -1,19 +1,62 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/admin.css">
     </head>
 
     <body>
         <%- include('../includes/navigation.ejs') %>
-
-            <main>
+        <main>
+            <div class="page">
+                <%- include('../includes/breadcrumbs.ejs', { trail: breadcrumbs(path) }) %>
                 <% if (prods.length > 0) { %>
-                    <div class="grid">
-                        <% for (let product of prods) { %>
-                            <%- include('../includes/product-card.ejs', { product: product, mode: 'admin' }) %>
-                        <% } %>
-                    </div>
+                    <header class="admin-books__header">
+                        <h1>All books</h1>
+                        <span class="eyebrow"><%= prods.length %> title<%= prods.length === 1 ? '' : 's' %></span>
+                    </header>
+
+                    <table class="admin-books__table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cover</th>
+                                <th scope="col">Book</th>
+                                <th scope="col">Price</th>
+                                <th scope="col"><span class="visually-hidden">Actions</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% prods.forEach(product => { %>
+                                <tr>
+                                    <td>
+                                        <div class="admin-books__cover" data-cover data-title="<%= product.title %>">
+                                            <%- include('../includes/cover.ejs', { imageUrl: product.imageUrl, alt: '', lazy: true }) %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="admin-books__title" href="/products/<%= product._id %>"><%= product.title %></a>
+                                        <% if (product.author) { %>
+                                            <span class="admin-books__author"> · <%= product.author %></span>
+                                        <% } %>
+                                    </td>
+                                    <td class="admin-books__price">$<%= Number(product.price).toFixed(2) %></td>
+                                    <td>
+                                        <div class="admin-books__actions">
+                                            <a class="btn btn--quiet" href="/admin/edit-product/<%= product._id %>?edit=true">Edit</a>
+                                            <form action="/admin/delete-product" method="POST">
+                                                <input type="hidden" value="<%= product._id %>" name="productId">
+                                                <button class="btn btn--danger" type="submit">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
                 <% } else { %>
-                    <h1>No Products Found!</h1>
+                    <div class="empty-state">
+                        <h1>No books yet</h1>
+                        <p class="empty-state__text">Add the first title and it will show up here.</p>
+                        <a class="btn btn--primary" href="/admin/add-product">Add book</a>
+                    </div>
                 <% } %>
-            </main>
-            <%- include('../includes/end.ejs') %>
+            </div>
+        </main>
+        <%- include('../includes/end.ejs') %>

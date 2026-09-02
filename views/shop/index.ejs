@@ -1,19 +1,31 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/product.css">
-</head>
+    <link rel="stylesheet" href="/css/catalog.css">
+    </head>
 
-<body>
-    <%- include('../includes/navigation.ejs') %>
-
-    <main>
-        <% if (prods.length > 0) { %>
-            <div class="grid">
-                <% for (let product of prods) { %>
-                    <%- include('../includes/product-card.ejs', { product: product, mode: 'shop' }) %>
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <div class="page">
+                <% if (prods.length > 0) { %>
+                    <header class="catalog__header">
+                        <h1>New this season</h1>
+                        <span class="eyebrow">Selected titles</span>
+                    </header>
+                    <div class="catalog__grid">
+                        <% prods.forEach(product => { %>
+                            <%- include('../includes/product-card.ejs', { product: product, cartProductIds: cartProductIds, returnTo: '/' }) %>
+                        <% }) %>
+                    </div>
+                    <div class="catalog__more">
+                        <a class="btn btn--quiet" href="/products">All books</a>
+                    </div>
+                <% } else { %>
+                    <div class="empty-state">
+                        <h1>The shelves are empty</h1>
+                        <p class="empty-state__text">No titles have been added yet.</p>
+                        <a class="btn btn--primary" href="/admin/add-product">Add the first book</a>
+                    </div>
                 <% } %>
             </div>
-        <% } else { %>
-            <h1>No Products Found!</h1>
-        <% } %>
-    </main>
-<%- include('../includes/end.ejs') %>
+        </main>
+        <%- include('../includes/end.ejs') %>

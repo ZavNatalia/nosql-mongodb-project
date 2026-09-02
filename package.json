@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "Complete Node.js Guide",
   "main": "app.js",
+  "nodemonConfig": {
+    "ignore": [
+      "data/*"
+    ]
+  },
   "scripts": {
     "test": "node --test",
     "start": "nodemon --exec \"node --env-file=.env\" app.js",

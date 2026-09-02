@@ -5,43 +5,51 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
-            <% if (products.length > 0) { %>
-                <% const totalPrice = products.reduce((sum, p) => sum + Number(p.price) * p.quantity, 0); %>
-                <% const totalItems = products.reduce((sum, p) => sum + p.quantity, 0); %>
-                <div class="cart">
+            <div class="page">
+                <%- include('../includes/breadcrumbs.ejs', { trail: breadcrumbs(path) }) %>
+                <% if (products.length > 0) { %>
+                    <% const totalPrice = products.reduce((sum, p) => sum + Number(p.price) * p.quantity, 0); %>
+                    <% const totalItems = products.reduce((sum, p) => sum + p.quantity, 0); %>
+
                     <header class="cart__header">
-                        <h1 class="cart__title">Your Cart</h1>
-                        <span class="cart__count"><%= totalItems %> item<%= totalItems === 1 ? '' : 's' %></span>
+                        <h1>Your cart</h1>
+                        <span class="eyebrow"><%= totalItems %> item<%= totalItems === 1 ? '' : 's' %></span>
                     </header>
 
-                    <ul class="cart__item-list">
+                    <ul class="cart__items">
                         <% products.forEach(p => { %>
                             <li class="cart__item">
-                                <div class="cart__item-image">
-                                    <img src="<%= p.imageUrl %>" alt="<%= p.title %>">
+                                <div class="cart__cover" data-cover data-title="<%= p.title %>">
+                                    <%- include('../includes/cover.ejs', { imageUrl: p.imageUrl, alt: '', lazy: true }) %>
                                 </div>
-                                <div class="cart__item-info">
-                                    <a class="cart__item-title" href="/products/<%= p._id %>"><%= p.title %></a>
-                                    <p class="cart__item-price">$<%= Number(p.price).toFixed(2) %> each</p>
-                                    <div class="cart__item-quantity">
-                                        <form action="/cart-update-item" method="POST">
-                                            <input type="hidden" value="<%= p._id %>" name="productId">
-                                            <input type="hidden" value="-1" name="delta">
-                                            <button class="cart__quantity-btn" type="submit" aria-label="Decrease quantity" <%= p.quantity <= 1 ? 'disabled' : '' %>>&minus;</button>
-                                        </form>
-                                        <span class="cart__quantity-value"><%= p.quantity %></span>
-                                        <form action="/cart-update-item" method="POST">
-                                            <input type="hidden" value="<%= p._id %>" name="productId">
-                                            <input type="hidden" value="1" name="delta">
-                                            <button class="cart__quantity-btn" type="submit" aria-label="Increase quantity">+</button>
-                                        </form>
-                                    </div>
+
+                                <div class="cart__info">
+                                    <a class="cart__title" href="/products/<%= p._id %>"><%= p.title %></a>
+                                    <% if (p.author) { %>
+                                        <p class="cart__author"><%= p.author %></p>
+                                    <% } %>
+                                    <p class="cart__unit">$<%= Number(p.price).toFixed(2) %></p>
                                 </div>
-                                <div class="cart__item-actions">
-                                    <p class="cart__item-total">$<%= (Number(p.price) * p.quantity).toFixed(2) %></p>
+
+                                <div class="cart__stepper">
+                                    <form action="/cart-update-item" method="POST">
+                                        <input type="hidden" value="<%= p._id %>" name="productId">
+                                        <input type="hidden" value="-1" name="delta">
+                                        <button class="cart__step-btn" type="submit" aria-label="Decrease quantity" <%= p.quantity <= 1 ? 'disabled' : '' %>>&minus;</button>
+                                    </form>
+                                    <span class="numeric cart__quantity"><%= p.quantity %></span>
+                                    <form action="/cart-update-item" method="POST">
+                                        <input type="hidden" value="<%= p._id %>" name="productId">
+                                        <input type="hidden" value="1" name="delta">
+                                        <button class="cart__step-btn" type="submit" aria-label="Increase quantity">+</button>
+                                    </form>
+                                </div>
+
+                                <div class="cart__line">
+                                    <span class="numeric cart__line-total">$<%= (Number(p.price) * p.quantity).toFixed(2) %></span>
                                     <form action="/cart-delete-item" method="POST">
                                         <input type="hidden" value="<%= p._id %>" name="productId">
-                                        <button class="btn danger" type="submit">Delete</button>
+                                        <button class="btn btn--danger" type="submit">Remove</button>
                                     </form>
                                 </div>
                             </li>
@@ -49,21 +57,21 @@
                     </ul>
 
                     <section class="cart__summary">
-                        <div class="cart__summary-row">
-                            <span class="cart__summary-label">Total</span>
-                            <span class="cart__summary-value">$<%= totalPrice.toFixed(2) %></span>
+                        <div class="cart__total-row">
+                            <span class="eyebrow">Total</span>
+                            <span class="numeric cart__total">$<%= totalPrice.toFixed(2) %></span>
                         </div>
                         <form action="/checkout" method="GET">
-                            <button type="submit" class="btn btn--primary cart__order-btn">Order Now!</button>
+                            <button type="submit" class="btn btn--accent cart__order-btn">Checkout</button>
                         </form>
                     </section>
-                </div>
-            <% } else { %>
-                <div class="cart cart--empty">
-                    <h1 class="cart__title">Your cart is empty</h1>
-                    <p class="cart__empty-text">Looks like you haven't added anything yet.</p>
-                    <a href="/products" class="btn btn--primary">Browse Products</a>
-                </div>
-            <% } %>
+                <% } else { %>
+                    <div class="empty-state">
+                        <h1>Your cart is empty</h1>
+                        <p class="empty-state__text">Nothing has been added yet.</p>
+                        <a href="/products" class="btn btn--primary">Browse books</a>
+                    </div>
+                <% } %>
+            </div>
         </main>
         <%- include('../includes/end.ejs') %>

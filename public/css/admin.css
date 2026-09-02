@@ -1,0 +1,135 @@
+.book-form__title {
+    font-size: var(--fs-h1);
+    margin: var(--sp-2) 0 0;
+    color: var(--ink);
+}
+
+/* Отступ до формы держит сама форма: заголовок есть только при
+   редактировании, а при добавлении над формой стоит один надзаголовок */
+.book-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-5) var(--sp-5);
+    align-items: start;
+    max-width: 900px;
+    margin-top: var(--sp-6);
+}
+
+.book-form__wide,
+.book-form .form-errors,
+.book-form__cover {
+    grid-column: 1 / -1;
+}
+
+/* Поле и превью начинаются на одной высоте: при выравнивании по низу
+   над подписью «Cover URL» повисала пустота в высоту превью */
+.book-form__cover {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: var(--sp-5);
+    align-items: start;
+}
+
+.book-form__preview {
+    height: 160px;
+    padding: var(--sp-3) var(--sp-3) 0;
+}
+
+.book-form__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--line);
+}
+
+/* --- Таблица книг (задача 6) --------------------------------------------- */
+
+.admin-books__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-6);
+}
+
+.admin-books__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-books__table th {
+    font-family: var(--font-ui);
+    font-size: var(--fs-eyebrow);
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: left;
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--line);
+}
+
+.admin-books__table td {
+    padding: var(--sp-4) var(--sp-4) var(--sp-4) 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+}
+
+.admin-books__cover {
+    width: 40px;
+    height: 56px;
+}
+
+.admin-books__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-title);
+}
+
+.admin-books__author {
+    color: var(--ink-2);
+    font-size: var(--fs-ui);
+}
+
+.admin-books__price {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.admin-books__actions {
+    display: flex;
+    gap: var(--sp-4);
+    justify-content: flex-end;
+}
+
+@media (max-width: 767px) {
+    .book-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .book-form__cover {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-books__table th:nth-child(1),
+    .admin-books__table td:nth-child(1) {
+        display: none;
+    }
+}
+
+/* Чекбокс ломает вертикальную раскладку .form-control: подпись встаёт рядом,
+   а базовые правила поля (нижняя линейка, отступы) для него не нужны */
+.form-control--check {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--sp-3);
+}
+
+.form-control--check input {
+    width: auto;
+    border-bottom: 0;
+    padding: 0;
+    accent-color: var(--accent);
+}

@@ -3,13 +3,47 @@ const {ObjectId} = require('mongodb');
 const {getDb} = require('../util/database');
 
 class Product {
-    constructor(title, price, imageUrl, description, id, userId) {
+    constructor({
+        title,
+        author,
+        price,
+        imageUrl,
+        description,
+        publisher,
+        year,
+        pages,
+        available,
+        id,
+        userId
+    }) {
         this.title = title;
+        this.author = author;
         this.price = price;
         this.imageUrl = imageUrl;
         this.description = description;
+        this.publisher = publisher;
+        this.year = year;
+        this.pages = pages;
+        this.available = available;
         this._id = id ? new ObjectId(id) : null;
         this.userId = userId;
+    }
+
+    // Один список полей на вставку и на обновление — чтобы новое поле нельзя
+    // было добавить в одно место и забыть про второе
+    toDocument() {
+        return {
+            title: this.title,
+            author: this.author,
+            price: this.price,
+            imageUrl: this.imageUrl,
+            description: this.description,
+            publisher: this.publisher,
+            year: this.year,
+            pages: this.pages,
+            available: this.available,
+            userId: this.userId
+        };
     }
 
     save() {
@@ -17,27 +51,10 @@ class Product {
 
         if (this._id) {
             // _id в $set не передаём: MongoDB запрещает менять это поле
-            return products.updateOne(
-                {_id: this._id},
-                {
-                    $set: {
-                        title: this.title,
-                        price: this.price,
-                        imageUrl: this.imageUrl,
-                        description: this.description,
-                        userId: this.userId
-                    }
-                }
-            );
+            return products.updateOne({_id: this._id}, {$set: this.toDocument()});
         }
 
-        return products.insertOne({
-            title: this.title,
-            price: this.price,
-            imageUrl: this.imageUrl,
-            description: this.description,
-            userId: this.userId
-        });
+        return products.insertOne(this.toDocument());
     }
 
     static fetchAll() {

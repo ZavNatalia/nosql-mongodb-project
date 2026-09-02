@@ -1,5 +1,7 @@
 const Product = require('../models/product');
 const validateCheckout = require('../util/validate-checkout');
+const safeReturnTo = require('../util/safe-return-to');
+const isAvailable = require('../util/is-available');
 
 const EMPTY_CHECKOUT_VALUES = {
   name: '',
@@ -12,30 +14,39 @@ const EMPTY_CHECKOUT_VALUES = {
 };
 
 exports.getIndex = (req, res, next) => {
+  const cartProductIds = req.user.cart.items.map(item => item.productId.toString());
+
   Product.fetchAll()
     .then(products => {
       res.render('shop/index', {
-        prods: products,
+        // Главная — подборка, весь каталог живёт на /products
+        prods: products.slice(0, 8),
         pageTitle: 'Shop',
-        path: '/'
+        path: '/',
+        cartProductIds: cartProductIds
       });
     })
     .catch(err => console.log(err));
 };
 
 exports.getProducts = (req, res, next) => {
+  const cartProductIds = req.user.cart.items.map(item => item.productId.toString());
+
   Product.fetchAll()
     .then(products => {
       res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
-        path: '/products'
+        path: '/products',
+        cartProductIds: cartProductIds
       });
     })
     .catch(err => console.log(err));
 };
 
 exports.getProduct = (req, res, next) => {
+  const cartProductIds = req.user.cart.items.map(item => item.productId.toString());
+
   Product.findById(req.params.productId)
     .then(product => {
       if (!product) {
@@ -44,7 +55,8 @@ exports.getProduct = (req, res, next) => {
       res.render('shop/product-detail', {
         product: product,
         pageTitle: product.title,
-        path: '/products'
+        path: '/products',
+        cartProductIds: cartProductIds
       });
     })
     .catch(err => console.log(err));
@@ -64,15 +76,18 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.postCart = (req, res, next) => {
+  const redirectTo = safeReturnTo(req.body.returnTo);
+
   Product.findById(req.body.productId)
     .then(product => {
-      if (!product) {
+      // Кнопки у снятой с продажи книги нет, но форму можно отправить и вручную
+      if (!isAvailable(product)) {
         return null;
       }
       return req.user.addToCart(product);
     })
     .then(() => {
-      res.redirect('/cart');
+      res.redirect(redirectTo);
     })
     .catch(err => console.log(err));
 };

@@ -3,6 +3,13 @@
 
 <body>
     <%- include('includes/navigation.ejs') %>
-    <h1>Page Not Found!</h1>
-
+    <main>
+        <div class="page">
+            <div class="empty-state">
+                <h1>This page is not on the shelf</h1>
+                <p class="empty-state__text">The link may be old, or the book may have been removed.</p>
+                <a class="btn btn--primary" href="/products">Back to books</a>
+            </div>
+        </div>
+    </main>
 <%- include('includes/end.ejs') %>
