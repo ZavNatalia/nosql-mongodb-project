@@ -18,11 +18,18 @@ app.locals.isAvailable = require('./util/is-available');
 // Дерево страниц тоже общее: шаблоны получают готовую тропу по своему path
 app.locals.breadcrumbs = require('./util/breadcrumbs');
 
+// Обложки шаблоны просят не по чужой ссылке, а через свой кэш
+app.locals.cover = require('./util/covers').cover;
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const coverRoutes = require('./routes/covers');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Обложки — до общей middleware: пользователь для их выдачи не нужен
+app.use(coverRoutes);
 
 // Аутентификации нет: приложение работает от имени единственного пользователя,
 // созданного при старте. Его идентификатор запоминается здесь.

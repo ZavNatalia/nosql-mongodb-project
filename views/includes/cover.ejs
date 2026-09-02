@@ -1,0 +1,4 @@
+<%# Обложка раздаётся из своего кэша, размеры берутся оттуда же: пока их нет,
+    <img> идёт без width и height — атрибуты появятся, когда файл скачается %>
+<% const image = cover(imageUrl); %>
+<img src="<%= image.src %>" alt="<%= alt %>"<% if (image.width) { %> width="<%= image.width %>" height="<%= image.height %>"<% } %><% if (locals.lazy) { %> loading="lazy"<% } %> decoding="async">

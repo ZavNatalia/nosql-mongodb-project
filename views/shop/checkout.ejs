@@ -129,7 +129,7 @@
                         <% products.forEach(p => { %>
                             <li class="checkout__line">
                                 <div class="checkout__line-cover" data-cover data-title="<%= p.title %>">
-                                    <img src="<%= p.imageUrl %>" alt="" loading="lazy" decoding="async">
+                                    <%- include('../includes/cover.ejs', { imageUrl: p.imageUrl, alt: '', lazy: true }) %>
                                 </div>
                                 <div class="checkout__line-info">
                                     <span class="checkout__line-title"><%= p.title %></span>

@@ -27,7 +27,7 @@
                                 <tr>
                                     <td>
                                         <div class="admin-books__cover" data-cover data-title="<%= product.title %>">
-                                            <img src="<%= product.imageUrl %>" alt="" loading="lazy" decoding="async">
+                                            <%- include('../includes/cover.ejs', { imageUrl: product.imageUrl, alt: '', lazy: true }) %>
                                         </div>
                                     </td>
                                     <td>

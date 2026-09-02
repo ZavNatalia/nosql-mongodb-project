@@ -1,7 +1,7 @@
 <article class="book-card">
     <a class="book-card__link" href="/products/<%= product._id %>">
         <div class="book-card__shelf" data-cover data-title="<%= product.title %>">
-            <img src="<%= product.imageUrl %>" alt="Cover of <%= product.title %>" loading="lazy" decoding="async">
+            <%- include('./cover.ejs', { imageUrl: product.imageUrl, alt: 'Cover of ' + product.title, lazy: true }) %>
         </div>
         <div class="book-card__text">
             <h2 class="book-card__title"><%= product.title %></h2>

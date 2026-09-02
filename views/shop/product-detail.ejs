@@ -11,7 +11,7 @@
 
                     <div class="book__spread">
                         <div class="book__cover" data-cover data-title="<%= product.title %>">
-                            <img src="<%= product.imageUrl %>" alt="Cover of <%= product.title %>" decoding="async">
+                            <%- include('../includes/cover.ejs', { imageUrl: product.imageUrl, alt: 'Cover of ' + product.title }) %>
                         </div>
 
                         <div class="book__info">

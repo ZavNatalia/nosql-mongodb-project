@@ -45,7 +45,7 @@
                                     <% order.items.forEach(item => { %>
                                         <li class="order__product">
                                             <div class="order__product-cover" data-cover data-title="<%= item.product.title %>">
-                                                <img src="<%= item.product.imageUrl %>" alt="" loading="lazy" decoding="async">
+                                                <%- include('../includes/cover.ejs', { imageUrl: item.product.imageUrl, alt: '', lazy: true }) %>
                                             </div>
                                             <div class="order__product-info">
                                                 <span class="order__product-title"><%= item.product.title %></span>

@@ -6,7 +6,12 @@
     margin-bottom: var(--sp-6);
 }
 
+/* Каждая строка — отдельный грид, общих колонок у них нет. Поэтому две
+   правые колонки заданы явной шириной: от «auto» они мерились бы по
+   содержимому строки, и +/- прыгал бы вслед за длиной цены и количества */
 .cart__items {
+    --cart-stepper-w: 8rem;
+    --cart-line-w: 7rem;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -15,7 +20,7 @@
 
 .cart__item {
     display: grid;
-    grid-template-columns: 56px minmax(0, 1fr) auto auto;
+    grid-template-columns: 56px minmax(0, 1fr) var(--cart-stepper-w) var(--cart-line-w);
     gap: var(--sp-5);
     align-items: center;
     padding: var(--sp-5) 0;
@@ -76,7 +81,7 @@
 }
 
 .cart__quantity {
-    min-width: 2ch;
+    width: 2.5rem;
     text-align: center;
     font-size: var(--fs-title);
 }
