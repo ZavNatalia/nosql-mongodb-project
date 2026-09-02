@@ -1,9 +1,9 @@
 const express = require('express');
 
-const { sendCover, ROUTE } = require('../util/covers');
+module.exports = covers => {
+  const router = express.Router();
 
-const router = express.Router();
+  router.get(`${covers.route}/:hash`, covers.sendCover);
 
-router.get(`${ROUTE}/:hash`, sendCover);
-
-module.exports = router;
+  return router;
+};

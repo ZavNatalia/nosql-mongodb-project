@@ -6,12 +6,14 @@
     margin-bottom: var(--sp-6);
 }
 
-/* Каждая строка — отдельный грид, общих колонок у них нет. Поэтому две
-   правые колонки заданы явной шириной: от «auto» они мерились бы по
-   содержимому строки, и +/- прыгал бы вслед за длиной цены и количества */
+/* Колонки заданы на списке, а строки берут их через subgrid: так у всех строк
+   они общие и одной ширины. Если раскладывать каждую строку отдельным гридом,
+   ширину колонки задаёт содержимое этой строки — и столбец +/- прыгает вслед
+   за длиной цены и количества */
 .cart__items {
-    --cart-stepper-w: 8rem;
-    --cart-line-w: 7rem;
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto auto;
+    column-gap: var(--sp-5);
     list-style: none;
     margin: 0;
     padding: 0;
@@ -20,8 +22,8 @@
 
 .cart__item {
     display: grid;
-    grid-template-columns: 56px minmax(0, 1fr) var(--cart-stepper-w) var(--cart-line-w);
-    gap: var(--sp-5);
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
     align-items: center;
     padding: var(--sp-5) 0;
     border-bottom: 1px solid var(--line);
@@ -81,7 +83,7 @@
 }
 
 .cart__quantity {
-    width: 2.5rem;
+    min-width: 2ch;
     text-align: center;
     font-size: var(--fs-title);
 }
@@ -117,8 +119,11 @@
 }
 
 @media (max-width: 767px) {
-    .cart__item {
+    .cart__items {
         grid-template-columns: 56px minmax(0, 1fr);
+    }
+
+    .cart__item {
         row-gap: var(--sp-4);
     }
 

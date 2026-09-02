@@ -19,11 +19,16 @@ app.locals.isAvailable = require('./util/is-available');
 app.locals.breadcrumbs = require('./util/breadcrumbs');
 
 // Обложки шаблоны просят не по чужой ссылке, а через свой кэш
-app.locals.cover = require('./util/covers').cover;
+const covers = require('./util/covers')({
+  dir: path.join(__dirname, 'data', 'covers'),
+  sources: require('./util/cover-sources')
+});
+
+app.locals.cover = covers.cover;
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-const coverRoutes = require('./routes/covers');
+const coverRoutes = require('./routes/covers')(covers);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -55,5 +60,8 @@ mongoConnect()
     currentUserId = user._id;
     app.listen(3000);
     console.log('Сервер запущен: http://localhost:3000');
+
+    // Уборка кэша обложек — обслуживание, старту сервера она не мешает
+    return covers.sweep().catch(err => console.log(err));
   })
   .catch(err => console.log(err));
